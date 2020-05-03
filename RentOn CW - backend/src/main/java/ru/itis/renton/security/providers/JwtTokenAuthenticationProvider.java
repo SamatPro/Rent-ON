@@ -36,7 +36,7 @@ public class JwtTokenAuthenticationProvider implements AuthenticationProvider {
         }
 
         UserDetails userDetails = new UserDetailsImpl(
-                Long.parseLong(body.get("sub").toString()),
+                Long.parseLong(body.getSubject()),
                 body.get("role").toString(),
                 body.get("login").toString()
         );

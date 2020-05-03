@@ -29,64 +29,73 @@ class Registration extends Component {
     }
 
     registerClicked() {
-        AuthenticationService
-            .executeJwtRegister(
-                this.state.login,
-                this.state.password,
-                this.state.firstName,
-                this.state.lastName,
-                this.state.address,
-                this.state.phone)
-            .then((response) => {
-                console.log(response.data);
-                AuthenticationService.registerSuccessfulLoginForJwt(this.state.login, response.data.value)
-                this.props.history.push(`/login`)
-            }).catch(() => {
-            }
-        )
+        if (this.state.password===this.state.repassword){
+            AuthenticationService
+                .executeJwtRegister(
+                    this.state.login,
+                    this.state.password,
+                    this.state.firstName,
+                    this.state.lastName,
+                    this.state.address,
+                    this.state.phone)
+                .then((response) => {
+                    console.log(response.data);
+                    this.props.history.push(`/successful`)
+                }).catch(() => {
+                }
+            )
+        }else {
+            let passwordState = document.getElementById("password-state");
+            passwordState.innerText = "Пароли не совпадают!!!";
+            passwordState.style.color = "red";
+
+        }
 
     }
 
     render() {
         return (
             <div>
-                <div class="section">
-                    <div class="container">
-                        <div class="row">
+                <div className="section">
+                    <div className="container">
+                        <div className="row">
 
-                            <div class="col-md-7">
-                                <div class="billing-details">
-                                    <div class="section-title">
-                                        <h3 class="title">Регистрация</h3>
+                            <div className="col-md-7">
+                                <div className="billing-details">
+                                    <div className="section-title">
+                                        <h3 className="title">Регистрация</h3>
                                     </div>
-                                    <div class="form-group">
-                                        <input class="input" type="email" name="login" placeholder="Login"
-                                               value={this.state.login} onChange={this.handleChange}/>
+                                    <div className="section-title">
+                                        <h4 id="password-state"></h4>
+                                    </div>
+                                    <div className="form-group">
+                                        <input className="input" type="email" name="login" placeholder="Login"
+                                               value={this.state.login} onChange={this.handleChange} required/>
                                     </div>
                                     <div className="form-group">
                                         <input className="input" type="password" name="password" placeholder="Password"
-                                               value={this.state.password} onChange={this.handleChange}/>
+                                               value={this.state.password} onChange={this.handleChange} required/>
                                     </div>
                                     <div className="form-group">
                                         <input className="input" type="password" name="repassword"
                                                placeholder="Repassword" value={this.state.repassword}
-                                               onChange={this.handleChange}/>
+                                               onChange={this.handleChange} required/>
                                     </div>
-                                    <div class="form-group">
-                                        <input class="input" type="text" name="first-name" placeholder="First Name"
-                                               value={this.state.firstName} onChange={this.handleChange}/>
+                                    <div className="form-group">
+                                        <input className="input" type="text" name="firstName" placeholder="First Name"
+                                               value={this.state.firstName} onChange={this.handleChange} required/>
                                     </div>
-                                    <div class="form-group">
-                                        <input class="input" type="text" name="last-name" placeholder="Last Name"
-                                               value={this.state.lastName} onChange={this.handleChange}/>
+                                    <div className="form-group">
+                                        <input className="input" type="text" name="lastName" placeholder="Last Name"
+                                               value={this.state.lastName} onChange={this.handleChange} required/>
                                     </div>
-                                    <div class="form-group">
-                                        <input class="input" type="text" name="address" placeholder="Address"
+                                    <div className="form-group">
+                                        <input className="input" type="number" name="phone" placeholder="Phone"
+                                               value={this.state.phone} onChange={this.handleChange} required/>
+                                    </div>
+                                    <div className="form-group">
+                                        <input className="input" type="text" name="address" placeholder="Address"
                                                value={this.state.address} onChange={this.handleChange}/>
-                                    </div>
-                                    <div class="form-group">
-                                        <input class="input" type="tel" name="tel" placeholder="Phone"
-                                               value={this.state.phone} onChange={this.handleChange}/>
                                     </div>
                                 </div>
                                 <button href="#" className="primary-btn order-submit"

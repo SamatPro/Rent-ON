@@ -31,11 +31,11 @@ class Login extends Component {
             .executeJwtLogin(this.state.login, this.state.password)
             .then((response) => {
                 console.log(response.data);
-                AuthenticationService.registerSuccessfulLoginForJwt(this.state.login, response.data.tokenValue)
+                AuthenticationService.registerSuccessfulLoginForJwt(this.state.login, response.data.value)
                 this.props.history.push(`/profile`)
             }).catch(() => {
-            this.setState({showSuccessMessage: false})
-            this.setState({hasLoginFailed: true})
+                this.setState({showSuccessMessage: false})
+                this.setState({hasLoginFailed: true})
         })
 
     }

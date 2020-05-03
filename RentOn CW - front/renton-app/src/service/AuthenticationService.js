@@ -1,8 +1,8 @@
 import axios from 'axios'
 import Cookies from 'universal-cookie';
 
-// const API_URL = 'http://localhost:8080'
-// const cookies = new Cookies();
+const API_URL = 'http://localhost:8080'
+const cookies = new Cookies();
 
 export const USER_NAME_SESSION_ATTRIBUTE_NAME = 'authenticatedUser'
 export const TOKEN = 'token'
@@ -10,29 +10,40 @@ export const TOKEN = 'token'
 class AuthenticationService {
 
     executeJwtLogin(login, password) {
-        // console.log(login);
-        // return axios.post(`${API_URL}/login`, {
-        //     login,
-        //     password
-        // })
+        console.log(login);
+        return axios.post(`${API_URL}/login`, {
+            login,
+            password
+        })
     }
 
     executeJwtRegister(login, password, firstName, lastName, address, phone) {
-        // console.log(login);
-        // return axios.post(`${API_URL}/register`, {
-        //     login,
-        //     password,
-        //     firstName,
-        //     lastName,
-        //     address,
-        //     phone
-        // })
+        console.log(login);
+        return axios.post(`${API_URL}/registration`, {
+            login,
+            password,
+            firstName,
+            lastName,
+            address,
+            phone
+        })
+    }
+
+    updateUser(password, firstName, lastName, address, phone){
+        this.setupAxiosInterceptors();
+        return axios.put(`${API_URL}/update`, {
+            password,
+            firstName,
+            lastName,
+            address,
+            phone
+        })
     }
 
     registerSuccessfulLoginForJwt(username, token) {
-        // localStorage.setItem(USER_NAME_SESSION_ATTRIBUTE_NAME, username)
-        // localStorage.setItem('AUTH', token)
-        // cookies.set('AUTH', token, { path: '/' });
+        localStorage.setItem(USER_NAME_SESSION_ATTRIBUTE_NAME, username)
+        localStorage.setItem('AUTH', token)
+        cookies.set('AUTH', token, { path: '/' });
     }
 
 
@@ -41,9 +52,10 @@ class AuthenticationService {
         localStorage.removeItem(TOKEN);
     }
 
-    isUserLoggedIn() {
-        // let user = localStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)
-        // if (user === null) return false
+    isUserLoggedIn(){
+        let user = localStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)
+        console.log(user)
+        if (user === null) return false
         return true
     }
 
@@ -53,8 +65,22 @@ class AuthenticationService {
         return user
     }
 
-    setupAxiosInterceptors(token) {
-        axios.defaults.headers.common['AUTH'] = token;
+    getUserData(id){
+        this.setupAxiosInterceptors();
+
+        // return fetch(`${API_URL}/user/${id}`, { headers: { AUTH: localStorage.getItem("AUTH") } })
+        //     .then(response => response.json());
+
+        return axios.get(`${API_URL}/user/${id}`)
+            .then(res=>{
+                const user = res.data
+                return user
+                }
+            )
+    }
+
+    setupAxiosInterceptors() {
+        axios.defaults.headers.common['AUTH'] = localStorage.getItem('AUTH');
     }
 }
 

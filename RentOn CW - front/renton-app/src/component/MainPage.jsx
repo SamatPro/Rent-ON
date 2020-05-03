@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import Navbar from "./Navbar";
-import ProductBar from "./ProductBar";
+import ProductBar from "./products/ProductBar";
 
 class MainPage extends Component {
 

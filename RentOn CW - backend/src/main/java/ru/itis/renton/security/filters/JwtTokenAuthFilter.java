@@ -18,7 +18,7 @@ public class JwtTokenAuthFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest)servletRequest;
-        String token = request.getHeader("Authorization");
+        String token = request.getHeader("AUTH");
         JwtTokenAuthentication authentication;
 
         if (token == null) {

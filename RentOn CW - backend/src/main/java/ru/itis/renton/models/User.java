@@ -4,7 +4,6 @@ import lombok.*;
 import ru.itis.renton.security.role.Role;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.util.List;
 
 @Builder
@@ -23,8 +22,8 @@ public class User {
 
     private String lastName;
     private String firstName;
-    private String middleName;
-    private Date birthday;
+
+    private String address;
 
     @Column(length = 1000)
     private String login;
@@ -40,4 +39,6 @@ public class User {
 
 //    private List<Order> orders;
 //    private List<Product> placements;
+    @OneToMany(mappedBy = "author")
+    private List<Photo> profilePhoto;
 }

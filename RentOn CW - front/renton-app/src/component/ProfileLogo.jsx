@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
+import AuthenticationService from "../service/AuthenticationService";
 
 class ProfileLogo extends Component {
     render() {
-        if (!true) {
+        if (!AuthenticationService.isUserLoggedIn()) {
             return (
                 <ul className="header-links pull-right">
                     <li><a href="/register"><i className="fa fa-user-circle"></i> Регистрация</a></li>

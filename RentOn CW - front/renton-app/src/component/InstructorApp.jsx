@@ -4,10 +4,14 @@ import Login from './Login';
 import Registration from './Registration';
 import MainPage from "./MainPage";
 import ProductPage from "./ProductPage";
-import Profile from "./Profile";
+import Profile from "./profile/Profile";
 import NoMatch from "./NoMatch";
 import Header from "./Header";
 import Footer from "./Footer";
+import SuccessfulRegistration from "./SuccessfulRegistration";
+import Confirm from "./Confirm";
+import ProfileEdit from "./profile/ProfileEdit";
+import AuthenticatedRoute from "./AuthenticatedRoute";
 
 class InstructorApp extends Component {
 
@@ -25,7 +29,13 @@ class InstructorApp extends Component {
                                 <Route path="/register" exact component={Registration} />
                                 <Route path="/index" exact component={MainPage}/>
                                 <Route path="/product" exact component={ProductPage}/>
-                                <Route path="/profile" exact component={Profile}/>
+                                <Route path="/successful" exact component={SuccessfulRegistration}/>
+                                <Route exact path='/confirm/:id' component={Confirm} />
+                                <AuthenticatedRoute path='/user/:id' exact component={Profile}>
+                                    {/*<AuthenticatedRoute path="/edit" exact component={ProfileEdit}/>*/}
+                                </AuthenticatedRoute>
+                                <AuthenticatedRoute path="/user/edit" exact component={ProfileEdit}/>
+
                                 <Route component={NoMatch} />
                             </Switch>
                         </>

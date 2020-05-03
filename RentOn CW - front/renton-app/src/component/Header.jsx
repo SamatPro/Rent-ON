@@ -11,11 +11,11 @@ class Header extends Component {
                         <div className="container">
                             <ul className="header-links pull-left">
                                 <li><a><i className="fa fa-phone"></i> +021-95-51-84</a></li>
-                                <li><a><i className="fa fa-envelope-o"></i> email@email.com</a></li>
-                                <li><a><i className="fa fa-map-marker"></i> Казань, Кремлевская 35 </a></li>
+                                <li><a><i className="fa fa-envelope-o"></i> renton.kzn@gmail.com</a></li>
+                                <li><a><i className="fa fa-map-marker"></i> Казань, Кремлевская, 35 </a></li>
                             </ul>
 
-                            {/*<div id="auth"></div>*/}
+                            <div id="auth"></div>
                             {/*<ul className="header-links pull-right">*/}
                             {/*    <li><a href="/register"><i className="fa fa-user-circle"></i> Регистрация</a></li>*/}
                             {/*    <li><a href="/login"><i className="fa fa-user-o"></i> Вход</a></li>*/}
@@ -35,7 +35,7 @@ class Header extends Component {
                                 <div className="col-md-3">
                                     <div className="header-logo">
                                         <a href="/" className="logo">
-                                            <img src="./logo.png" alt="" width="200px"/>
+                                            <img src="/logo.png" alt="" width="200px"/>
                                         </a>
                                     </div>
                                 </div>

@@ -26,7 +26,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .addFilterBefore(jwtTokenAuthFilter, BasicAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/user/**").hasAuthority("USER")
+//                .antMatchers("/user/**").hasAuthority("USER")
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .antMatchers("/employer/**").hasAuthority("EMPLOYER")
                 .antMatchers("/login").permitAll()

@@ -31,17 +31,21 @@ public class JwtHelper {
         Date validity = new Date(now.getTime() + validityInMilliseconds);
 
         return Jwts.builder()
+                .signWith(SignatureAlgorithm.HS256, secretKey)
                 .claim("role", user.getRole().toString())
                 .claim("login", user.getLogin())
                 .setSubject(user.getId().toString())
                 .setIssuedAt(now)
                 .setExpiration(validity)
-                .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 
     public String getUsername(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("login", String.class);
+    }
+
+    public String getUserId(String token){
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("id", String.class);
     }
 
     public String getId(String token) {
