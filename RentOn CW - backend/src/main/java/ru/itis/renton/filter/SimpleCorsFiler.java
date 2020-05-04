@@ -17,7 +17,7 @@ public class SimpleCorsFiler implements Filter {
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS, PATCH");
         response.setHeader("Access-Control-Max-Age", "3600");
-        response.setHeader("Access-Control-Allow-Headers", "AUTH, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, append,delete,entries,foreach,get,has,keys,set,values, Access-Control-Request-Method, Access-Control-Request-Headers");
+        response.setHeader("Access-Control-Allow-Headers", "AUTH, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
 
         chain.doFilter(req, res);
     }

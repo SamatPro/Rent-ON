@@ -9,6 +9,7 @@ import ru.itis.renton.dto.LoginDto;
 import ru.itis.renton.dto.ProfileDto;
 import ru.itis.renton.dto.TokenDto;
 import ru.itis.renton.dto.UserDto;
+import ru.itis.renton.forms.ProfileForm;
 import ru.itis.renton.models.User;
 import ru.itis.renton.services.UserService;
 
@@ -20,7 +21,7 @@ public class UsersController {
 
     @PostMapping("/login")
     public ResponseEntity<TokenDto> login(@RequestBody LoginDto loginDto) {
-        return ResponseEntity.ok(TokenDto.from(userService.login(loginDto.getLogin(), loginDto.getPassword())));
+        return ResponseEntity.ok(userService.login(loginDto.getLogin(), loginDto.getPassword()));
     }
 
     @PostMapping("/registration")
@@ -33,27 +34,33 @@ public class UsersController {
         }
     }
 
-//    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping(value = "/user/{id}")
-    public ResponseEntity<User> getCurrentUser(@PathVariable Long id,
+    @GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProfileDto> getUser(@PathVariable Long id,
                                                @RequestHeader("AUTH") String token){
         try{
-            System.out.println(token +"   " + id.toString());
-            User user = userService.getUser(token, id);
-            return ResponseEntity.ok(user);
+            return ResponseEntity.ok(userService.getUser(token, id));
         }catch (IllegalArgumentException e){
             return ResponseEntity.badRequest().build();
         }
     }
 
     @PutMapping("/update")
-    public ResponseEntity update(@RequestBody ProfileDto profileDto,
+    public ResponseEntity update(@RequestBody ProfileForm profileForm,
                                  @RequestHeader("AUTH") String token){
         try{
-            userService.update(profileDto, token);
+            userService.update(profileForm, token);
             return ResponseEntity.ok().build();
         }catch (IllegalArgumentException e){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+    }
+
+    @GetMapping(value = "/user-info", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProfileDto> getUser(@RequestHeader("AUTH") String token){
+        try{
+            return ResponseEntity.ok(userService.getUser(token));
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().build();
         }
     }
 

@@ -31,10 +31,8 @@ class InstructorApp extends Component {
                                 <Route path="/product" exact component={ProductPage}/>
                                 <Route path="/successful" exact component={SuccessfulRegistration}/>
                                 <Route exact path='/confirm/:id' component={Confirm} />
-                                <AuthenticatedRoute path='/user/:id' exact component={Profile}>
-                                    {/*<AuthenticatedRoute path="/edit" exact component={ProfileEdit}/>*/}
-                                </AuthenticatedRoute>
-                                <AuthenticatedRoute path="/user/edit" exact component={ProfileEdit}/>
+                                <AuthenticatedRoute exact path="/user/edit" component={ProfileEdit}/>
+                                <AuthenticatedRoute exact path='/user/:id' component={Profile}/>
 
                                 <Route component={NoMatch} />
                             </Switch>

@@ -7,12 +7,12 @@ import javax.persistence.*;
 import java.util.List;
 
 @Builder
-@Getter
-@Setter
 @ToString
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "users")
 public class User {
@@ -20,12 +20,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "last_name")
     private String lastName;
+    @Column(name = "first_name")
     private String firstName;
 
     private String address;
 
-    @Column(length = 1000)
     private String login;
     private String passwordHash;
 
@@ -37,8 +38,10 @@ public class User {
     private Boolean isEmailConfirmed;
     private String confirmString;
 
-//    private List<Order> orders;
+    //    private List<Order> orders;
 //    private List<Product> placements;
     @OneToMany(mappedBy = "author")
     private List<Photo> profilePhoto;
 }
+
+

@@ -1,5 +1,6 @@
 package ru.itis.renton.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.sql.Date;

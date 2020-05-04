@@ -1,5 +1,6 @@
 package ru.itis.renton.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,8 +18,7 @@ public class Photo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String uuid;
-    private String extension;
+    private String name;
 
     @ManyToOne
     private User author;

@@ -3,9 +3,11 @@ package ru.itis.renton.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.itis.renton.dto.ProfileDto;
 import ru.itis.renton.dto.TokenDto;
 import ru.itis.renton.dto.UserDto;
+import ru.itis.renton.forms.ProfileForm;
 import ru.itis.renton.models.Photo;
 import ru.itis.renton.models.User;
 import ru.itis.renton.repositories.UsersRepository;
@@ -19,6 +21,7 @@ import java.util.UUID;
 import static java.util.Arrays.asList;
 
 @Service
+@Transactional
 public class UsersServiceImpl implements UserService {
 
     private final String HEADER = "";
@@ -37,12 +40,13 @@ public class UsersServiceImpl implements UserService {
     private EmailService emailService;
 
     @Override
-    public String login(String login, String password) {
+    public TokenDto login(String login, String password) {
         Optional<User> candidate = usersRepository.getByLoginIgnoreCase(login);
         if (candidate.isPresent()) {
             User user = candidate.get();
             if (encoder.matches(password, user.getPasswordHash())) {
-                return jwtHelper.createToken(user);
+                String token = jwtHelper.createToken(user);
+                return TokenDto.from(token, user.getId());
             }
         }
         throw new IllegalArgumentException("Login attempt failed");
@@ -75,7 +79,7 @@ public class UsersServiceImpl implements UserService {
     }
 
     @Override
-    public void update(ProfileDto userDto, String token) {
+    public void update(ProfileForm userDto, String token) {
         String login = jwtHelper.getUsername(token);
 
         Optional<User> candidate = usersRepository.getByLoginIgnoreCase(login);
@@ -95,29 +99,53 @@ public class UsersServiceImpl implements UserService {
     }
 
     @Override
-    public User getUser(String token, Long id) {
+    @Transactional
+    public ProfileDto getUser(String token, Long id) {
         Long currentUserId = Long.valueOf(jwtHelper.getUserId(token));
-        if (id.equals(currentUserId)){
-            return usersRepository.getOne(id);
-        }else {
-            Optional<User> otherOptional = usersRepository.findUserById(id);
-            if (otherOptional.isPresent()){
-                User otherUser = User.builder()
-                .firstName(otherOptional.get().getFirstName())
-                .lastName(otherOptional.get().getLastName())
-                .address(otherOptional.get().getAddress())
-                .phone(otherOptional.get().getPhone())
-                .build();
-
-                List<Photo> photos = otherOptional.get().getProfilePhoto();
-                if (!photos.isEmpty()){
-                    otherUser.setProfilePhoto(asList(photos.get(photos.size()-1)));
-                }
-                return otherUser;
+        Optional<User> userOptional = usersRepository.findUserById(id);
+        if (userOptional.isPresent()){
+            User user = userOptional.get();
+//            .firstName(otherOptional.get().getFirstName())
+//            .lastName(otherOptional.get().getLastName())
+//            .address(otherOptional.get().getAddress())
+//            .phone(otherOptional.get().getPhone())
+//            .build();
+            ProfileDto profileDto = ProfileDto.builder()
+                    .firstName(user.getFirstName())
+                    .lastName(user.getLastName())
+                    .address(user.getAddress())
+                    .phone(user.getPhone())
+                    .build();
+            List<Photo> photos = user.getProfilePhoto();
+            if (!photos.isEmpty()){
+                profileDto.setImage(photos.get(photos.size()-1).getName());
             }
+            return profileDto;
         }
+
         throw new IllegalArgumentException();
     }
 
-
+    @Override
+    @Transactional
+    public ProfileDto getUser(String token) {
+        Long userId = Long.valueOf(jwtHelper.getUserId(token));
+        Optional<User> userOptional = usersRepository.findUserById(userId);
+        if (userOptional.isPresent()){
+            List<Photo> photos = userOptional.get().getProfilePhoto();
+            User user = userOptional.get();
+            ProfileDto profileDto = ProfileDto.builder()
+                    .login(user.getLogin())
+                    .firstName(user.getFirstName())
+                    .lastName(user.getLastName())
+                    .address(user.getAddress())
+                    .phone(user.getPhone())
+                    .build();
+            if (!photos.isEmpty()){
+                profileDto.setImage(photos.get(photos.size()-1).getName());
+            }
+            return profileDto;
+        }
+        throw new IllegalArgumentException();
+    }
 }

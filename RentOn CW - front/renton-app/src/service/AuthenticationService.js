@@ -49,7 +49,8 @@ class AuthenticationService {
 
     logout() {
         localStorage.removeItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
-        localStorage.removeItem(TOKEN);
+        localStorage.removeItem('AUTH');
+        localStorage.removeItem('userId')
     }
 
     isUserLoggedIn(){
@@ -67,14 +68,9 @@ class AuthenticationService {
 
     getUserData(id){
         this.setupAxiosInterceptors();
-
-        // return fetch(`${API_URL}/user/${id}`, { headers: { AUTH: localStorage.getItem("AUTH") } })
-        //     .then(response => response.json());
-
-        return axios.get(`${API_URL}/user/${id}`)
+        axios.get(`${API_URL}/user/${id}`)
             .then(res=>{
-                const user = res.data
-                return user
+                    return res.data
                 }
             )
     }
