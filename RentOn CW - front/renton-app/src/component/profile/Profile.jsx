@@ -31,8 +31,10 @@ class Profile extends Component {
     }
 
     getUserData(id){
-        AuthenticationService.setupAxiosInterceptors();
-        axios.get(`${API_URL}/user/${id}`)
+        const header = new Headers();
+        header.append("AUTH", localStorage.getItem("AUTH"));
+        // AuthenticationService.setupAxiosInterceptors();
+        axios.get(`${API_URL}/user/${id}`, header)
             .then(res=>{
                     console.log(res)
                     const user = res.data

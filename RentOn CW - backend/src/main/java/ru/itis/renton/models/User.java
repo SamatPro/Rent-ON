@@ -39,7 +39,9 @@ public class User {
     private String confirmString;
 
     //    private List<Order> orders;
-//    private List<Product> placements;
+    @OneToMany(mappedBy = "owner")
+    private List<Product> placements;
+
     @OneToMany(mappedBy = "author")
     private List<Photo> profilePhoto;
 }

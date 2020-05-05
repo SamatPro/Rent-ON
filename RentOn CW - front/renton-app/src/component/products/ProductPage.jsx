@@ -1,7 +1,23 @@
 import React, {Component} from 'react'
-import Navbar from "./Navbar";
+import Navbar from "../Navbar";
 
 class ProductPage extends Component {
+
+    constructor(props) {
+        super(props)
+
+        const id = this.props.match.params.id
+
+        this.state = {
+            id:this.props.match.params.id,
+            firstName: '',
+            lastName: '',
+            image: '',
+
+        }
+
+    }
+
 
     render() {
         return (
@@ -91,6 +107,9 @@ class ProductPage extends Component {
                 <div className="section">
                     <div className="container">
                         <div className="row">
+
+
+
                             <div className="col-md-5 col-md-push-2">
                                 <div id="product-main-img">
 
@@ -115,13 +134,6 @@ class ProductPage extends Component {
                                         <img src="./img/product.jpg" alt=""/>
                                     </div>
 
-                                    <div className="product-preview">
-                                        <img src="./img/baba-yaga.jpg" alt=""/>
-                                    </div>
-
-                                    <div className="product-preview">
-                                        <img src="./img/baba-yaga.jpg" alt=""/>
-                                    </div>
                                 </div>
                             </div>
 

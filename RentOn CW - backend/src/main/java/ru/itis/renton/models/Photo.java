@@ -22,4 +22,7 @@ public class Photo {
 
     @ManyToOne
     private User author;
+
+    @ManyToOne
+    private Product product;
 }

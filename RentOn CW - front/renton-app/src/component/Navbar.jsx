@@ -9,12 +9,12 @@ class Navbar extends Component {
                         <div id="responsive-nav">
                             <ul className="main-nav nav navbar-nav">
                                 <li className="active"><a href="/">Главная</a></li>
-                                <li><a href="/">Топ</a></li>
-                                <li><a href="/">Категории</a></li>
-                                <li><a href="/">РОПрывало</a></li>
-                                <li><a href="/">оываол</a></li>
-                                <li><a href="/">лываоы</a></li>
-                                <li><a href="/">Aывоап</a></li>
+                                <li><a href="#">Топ</a></li>
+                                <li><a href="#">Техника</a></li>
+                                <li><a href="#">Развлечения</a></li>
+                                <li><a href="#">Спорт</a></li>
+                                <li><a href="#">Игрушки</a></li>
+                                <li><a href="#">Ремонт</a></li>
                             </ul>
                         </div>
                     </div>
@@ -23,4 +23,4 @@ class Navbar extends Component {
     }
     }
 
-    export default Navbar
+export default Navbar

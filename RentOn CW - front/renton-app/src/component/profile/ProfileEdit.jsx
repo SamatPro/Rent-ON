@@ -66,29 +66,12 @@ class ProfileEdit extends Component {
 
     onFormSubmit(e){
         e.preventDefault();
-        // const config = {
-        //     headers: {
-        //         'content-type': 'multipart/form-data'
-        //     }
-        // };
 
         let data = new FormData();
-        data.append('file', this.state.file);
+        // data.append('file', this.state.file);
+        data.append('file', e.target.files[0]);
 
-        // fetch('http://localhost:8080/image-upload', {
-        //     method: 'POST',
-        //     headers: new Headers({
-        //         'AUTH': localStorage.getItem('AUTH')
-        //     }),
-        //     body: data
-        // }).then(response => {
-        //     console.log(response)
-        //     this.setState({
-        //         image: API_IMG_URL + response.data.fileName
-        //     });
-        // }).catch(err => {
-        //     this.setState({error: err});
-        // });
+
         axios.post("http://localhost:8080/image-upload", data)
             .then((response) => {
                 console.log(response)
@@ -104,9 +87,6 @@ class ProfileEdit extends Component {
 
 
     onDrop() {
-        // this.setState({
-        //     picture: this.state.picture
-        // });
         Service.uploadPhoto(this.state.picture).then(r => this.props.history.push(`/user/${localStorage.getItem("userId")}`));
     }
 
@@ -151,11 +131,10 @@ class ProfileEdit extends Component {
                                         <img src={this.state.image} alt="ава"/>
                                         <span className="settings">
 
-                                            <form onSubmit={this.onFormSubmit}>
-                                                <h1>File Upload</h1>
-                                                <input type="file" name="myImage" onChange= {this.onChange} />
-                                                <button type="submit">Upload</button>
-                                            </form>
+                                            {/*<form onChange={this.onFormSubmit}>*/}
+                                                <input type="file" name="myImage" onChange= {this.onFormSubmit} />
+                                                {/*<button type="submit">Upload</button>*/}
+                                            {/*</form>*/}
 
                                             <button href="#" style={{border: "none", marginLeft: "40%"}}>
                                                 <i className="fa fa-trash"></i>Удалить</button>

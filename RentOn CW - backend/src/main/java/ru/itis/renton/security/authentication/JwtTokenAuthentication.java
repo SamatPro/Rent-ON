@@ -33,7 +33,7 @@ public class JwtTokenAuthentication implements Authentication {
 
     @Override
     public Object getPrincipal() {
-        return null;
+        return userDetails;
     }
 
     @Override

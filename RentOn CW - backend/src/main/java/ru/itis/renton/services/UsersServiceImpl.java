@@ -12,6 +12,7 @@ import ru.itis.renton.models.Photo;
 import ru.itis.renton.models.User;
 import ru.itis.renton.repositories.UsersRepository;
 import ru.itis.renton.security.helper.JwtHelper;
+import ru.itis.renton.security.providers.JwtTokenAuthenticationProvider;
 import ru.itis.renton.security.role.Role;
 
 import java.util.List;
@@ -105,11 +106,6 @@ public class UsersServiceImpl implements UserService {
         Optional<User> userOptional = usersRepository.findUserById(id);
         if (userOptional.isPresent()){
             User user = userOptional.get();
-//            .firstName(otherOptional.get().getFirstName())
-//            .lastName(otherOptional.get().getLastName())
-//            .address(otherOptional.get().getAddress())
-//            .phone(otherOptional.get().getPhone())
-//            .build();
             ProfileDto profileDto = ProfileDto.builder()
                     .firstName(user.getFirstName())
                     .lastName(user.getLastName())

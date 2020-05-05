@@ -24,12 +24,27 @@ public class PhotosController {
     @PostMapping(value = "/image-upload", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ApiOperation(value = "Make a POST request to upload the file",
             produces = "application/json", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> uploadPhoto(@RequestParam("file") MultipartFile photoDto,
+    public ResponseEntity<String> uploadProfilePhoto(@RequestParam("file") MultipartFile photoDto,
                                       @RequestHeader("AUTH") String token){
         System.out.println(token);
         if (!photoDto.isEmpty()) {
             System.out.println("saving");
             String fileName = photosService.savePhoto(photoDto, token);
+            return ResponseEntity.ok(fileName);
+        }else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PostMapping(value = "/product-image-upload", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @ApiOperation(value = "Make a POST request to upload the file",
+            produces = "application/json", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> uploadProductPhoto(@RequestParam("file") MultipartFile photoDto,
+                                              @RequestParam("product") String product){
+        if (!photoDto.isEmpty()) {
+            System.out.println("saving product photo");
+            String fileName = photosService.savePhoto(photoDto);
+            System.out.println(fileName);
             return ResponseEntity.ok(fileName);
         }else {
             return ResponseEntity.badRequest().build();

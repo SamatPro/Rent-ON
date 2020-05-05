@@ -30,15 +30,33 @@ public class PhotosServiceImpl implements PhotosService {
 
     @Override
     public String savePhoto(MultipartFile photo, String token) {
-        PhotoDto photoDto = new PhotoDto();
-        photoDto.setPhoto(photo);
+        String fileName = writeFile(photo);
+        bindPhoto(token, fileName);
+        return fileName;
+    }
+
+    @Override
+    public String savePhoto(MultipartFile photo) {
+        return writeFile(photo);
+    }
+
+    private void bindPhoto(String token, String name) {
+        Long userId = Long.valueOf(jwtHelper.getUserId(token));
+        Photo photo = Photo.builder()
+                .author(usersRepository.findUserById(userId).get())
+                .name(name)
+                .build();
+        photosRepository.save(photo);
+    }
+
+    private String writeFile(MultipartFile file){
         String fileName = UUID.randomUUID().toString().replaceAll("-", "")
                 + UUID.randomUUID().toString().replaceAll("-", "")
                 + "."
-                + photoDto.getPhoto().getOriginalFilename().split("\\.")[1];
+                + file.getOriginalFilename().split("\\.")[1];
 
         try {
-            byte[] bytes = photoDto.getPhoto().getBytes();
+            byte[] bytes = file.getBytes();
             BufferedOutputStream stream =
                     new BufferedOutputStream(
                             new FileOutputStream(
@@ -50,16 +68,7 @@ public class PhotosServiceImpl implements PhotosService {
         } catch (Exception e) {
             throw new IllegalArgumentException("Вам не удалось загрузить изображение ");
         }
-        bindPhoto(token, fileName);
         return fileName;
     }
 
-    private void bindPhoto(String token, String name) {
-        Long userId = Long.valueOf(jwtHelper.getUserId(token));
-        Photo photo = Photo.builder()
-                .author(usersRepository.findUserById(userId).get())
-                .name(name)
-                .build();
-        photosRepository.save(photo);
-    }
 }
