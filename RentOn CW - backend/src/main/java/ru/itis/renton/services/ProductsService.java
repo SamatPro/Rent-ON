@@ -1,7 +1,9 @@
 package ru.itis.renton.services;
 
 import ru.itis.renton.dto.ProductDto;
+import ru.itis.renton.models.Product;
 
 public interface ProductsService {
-    void add(ProductDto productDto, String token);
+    Long add(ProductDto productDto, String token);
+    Product get(Long id);
 }

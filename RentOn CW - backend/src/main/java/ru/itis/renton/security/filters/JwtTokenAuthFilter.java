@@ -10,6 +10,8 @@ import java.io.IOException;
 
 @Component
 public class JwtTokenAuthFilter implements Filter {
+
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -21,7 +23,7 @@ public class JwtTokenAuthFilter implements Filter {
         String token = request.getHeader("AUTH");
         JwtTokenAuthentication authentication;
 
-        if (token == null) {
+        if (token == null || !token.startsWith("Bearer ")) {
             authentication = new JwtTokenAuthentication(null);
             authentication.setAuthenticated(false);
         } else {

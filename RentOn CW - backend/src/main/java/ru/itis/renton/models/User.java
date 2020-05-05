@@ -1,5 +1,6 @@
 package ru.itis.renton.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import ru.itis.renton.security.role.Role;
 
@@ -40,9 +41,11 @@ public class User {
 
     //    private List<Order> orders;
     @OneToMany(mappedBy = "owner")
+    @JsonIgnore
     private List<Product> placements;
 
     @OneToMany(mappedBy = "author")
+    @JsonIgnore
     private List<Photo> profilePhoto;
 }
 

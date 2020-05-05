@@ -5,7 +5,6 @@ const API_URL = 'http://localhost:8080'
 const cookies = new Cookies();
 
 export const USER_NAME_SESSION_ATTRIBUTE_NAME = 'authenticatedUser'
-export const TOKEN = 'token'
 
 class AuthenticationService {
 
@@ -40,6 +39,14 @@ class AuthenticationService {
         })
     }
 
+    addProduct(title, price, description){
+        return axios.post(`${API_URL}/product/add`, {
+            title,
+            price,
+            description,
+        })
+    }
+
     registerSuccessfulLoginForJwt(username, token) {
         localStorage.setItem(USER_NAME_SESSION_ATTRIBUTE_NAME, username)
         localStorage.setItem('AUTH', token)
@@ -50,7 +57,7 @@ class AuthenticationService {
     logout() {
         localStorage.removeItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
         localStorage.removeItem('AUTH');
-        localStorage.removeItem('userId')
+        localStorage.removeItem('userId');
     }
 
     isUserLoggedIn(){

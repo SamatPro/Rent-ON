@@ -18,11 +18,14 @@ public class Photo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    @Column(name = "name")
+    private String title;
 
     @ManyToOne
+    @JsonIgnore
     private User author;
 
     @ManyToOne
+    @JsonIgnore
     private Product product;
 }

@@ -28,11 +28,12 @@ class InstructorApp extends Component {
                                 <Route path="/" exact component={MainPage} />
                                 <Route path="/login" exact component={Login} />
                                 <Route path="/register" exact component={Registration} />
-                                <Route path="/index" exact component={MainPage}/>
-                                <Route path="/product" exact component={ProductPage}/>
-                                <Route path="/product/add" exact component={ProductAdd}/>
                                 <Route path="/successful" exact component={SuccessfulRegistration}/>
                                 <Route exact path='/confirm/:id' component={Confirm} />
+                                <Route path="/index" exact component={MainPage}/>
+                                <Route path="/product/add" exact component={ProductAdd}/>
+                                <Route exact path="/product/:id" component={ProductPage}/>
+                                <AuthenticatedRoute exact path="/product/:id/edit" component={ProductAdd}/>
                                 <AuthenticatedRoute exact path="/user/edit" component={ProfileEdit}/>
                                 <AuthenticatedRoute exact path='/user/:id' component={Profile}/>
 

@@ -4,5 +4,5 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface PhotosService {
     String savePhoto(MultipartFile photoDto, String token);
-    String savePhoto(MultipartFile photoDto);
+    String savePhoto(MultipartFile photoDto, Long productId);
 }

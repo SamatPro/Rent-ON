@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 const API_URL = 'http://localhost:8080'
+const API_IMG_URL = 'http://localhost:8080/image/'
 
 
 class Service {
@@ -10,6 +11,11 @@ class Service {
             file
         })
     }
+
+    getProduct(id){
+        return axios.get(`${API_URL}/product/${id}`)
+    }
+
 
 }
 

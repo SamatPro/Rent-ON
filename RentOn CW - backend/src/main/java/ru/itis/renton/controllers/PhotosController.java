@@ -21,9 +21,7 @@ public class PhotosController {
     @Autowired
     private PhotosService photosService;
 
-    @PostMapping(value = "/image-upload", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @ApiOperation(value = "Make a POST request to upload the file",
-            produces = "application/json", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/image-upload")
     public ResponseEntity<String> uploadProfilePhoto(@RequestParam("file") MultipartFile photoDto,
                                       @RequestHeader("AUTH") String token){
         System.out.println(token);
@@ -36,14 +34,12 @@ public class PhotosController {
         }
     }
 
-    @PostMapping(value = "/product-image-upload", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @ApiOperation(value = "Make a POST request to upload the file",
-            produces = "application/json", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/product-image-upload")
     public ResponseEntity<String> uploadProductPhoto(@RequestParam("file") MultipartFile photoDto,
-                                              @RequestParam("product") String product){
+                                              @RequestParam("productId") Long productId){
         if (!photoDto.isEmpty()) {
             System.out.println("saving product photo");
-            String fileName = photosService.savePhoto(photoDto);
+            String fileName = photosService.savePhoto(photoDto, productId);
             System.out.println(fileName);
             return ResponseEntity.ok(fileName);
         }else {
@@ -58,12 +54,15 @@ public class PhotosController {
         File file = new File("uploads/"+fileName);
         InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
 
+        System.out.println("sending photo");
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getName())
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .contentLength(file.length())
                 .body(resource);
     }
+
+
 
 
 

@@ -31,10 +31,10 @@ class Profile extends Component {
     }
 
     getUserData(id){
-        const header = new Headers();
-        header.append("AUTH", localStorage.getItem("AUTH"));
-        // AuthenticationService.setupAxiosInterceptors();
-        axios.get(`${API_URL}/user/${id}`, header)
+        // const header = new Headers();
+        // header.append("AUTH", localStorage.getItem("AUTH"));
+        AuthenticationService.setupAxiosInterceptors();
+        axios.get(`${API_URL}/user/${id}`)
             .then(res=>{
                     console.log(res)
                     const user = res.data

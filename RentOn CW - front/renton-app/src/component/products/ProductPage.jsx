@@ -1,5 +1,9 @@
 import React, {Component} from 'react'
 import Navbar from "../Navbar";
+import Service from "../../service/Service";
+import Header from "../Header";
+
+const API_IMG_URL = 'http://localhost:8080/image/'
 
 class ProductPage extends Component {
 
@@ -10,12 +14,37 @@ class ProductPage extends Component {
 
         this.state = {
             id:this.props.match.params.id,
-            firstName: '',
-            lastName: '',
-            image: '',
+            title: '',
+            price: '',
+            description:'',
+            state:'',
+            image: '/img/noProductImage.png',
+            owner: ''
 
         }
+        this.getProduct = this.getProduct.bind(this)
+        this.getProduct(this.state.id)
+    }
 
+    getProduct(id){
+        // const header = new Header();
+        // header.append("AUTH", localStorage.getItem("AUTH"))
+        Service.getProduct(id)
+            .then((res)=>{
+                this.setState({
+                    title: res.data.title,
+                    price: res.data.price,
+                    description: res.data.description,
+                    state: res.data.state,
+                    owner: res.data.user
+                })
+                console.log(res.data)
+                if (res.data.image!==null){
+                    this.setState({
+                        image: API_IMG_URL + res.data.image
+                    })
+                }
+            }).catch()
     }
 
 
@@ -24,97 +53,15 @@ class ProductPage extends Component {
             <div>
                 <Navbar/>
 
-
-                {/*<div class="single-product-area section-padding-100 clearfix">
-                    <div class="container-fluid">
-
-                        <div class="row">
-                            <div class="col-12 col-lg-7">
-                                <div class="single_product_thumb">
-                                    <div id="product_details_slider" class="carousel slide" data-ride="carousel">
-                                        <ol class="carousel-indicators">
-                                            <li class="active" data-target="#product_details_slider" data-slide-to="0" style={{background_image : url(img/product.jpg)}}>
-                                            </li>
-                                            <li data-target="#product_details_slider" data-slide-to="1" style="background-image: url(img/product-img/pro-big-2.jpg);">
-                                            </li>
-                                            <li data-target="#product_details_slider" data-slide-to="2" style="background-image: url(img/product-img/pro-big-3.jpg);">
-                                            </li>
-                                            <li data-target="#product_details_slider" data-slide-to="3" style="background-image: url(img/product-img/pro-big-4.jpg);">
-                                            </li>
-                                        </ol>
-                                        <div class="carousel-inner">
-                                            <div class="carousel-item active">
-                                                <a class="gallery_img" href="./img/product.jpg">
-                                                    <img class="d-block w-100" src="./img/product.jpg" alt="First slide"/>
-                                                </a>
-                                            </div>
-                                            <div class="carousel-item">
-                                                <a class="gallery_img" href="./img/baba-yaga.jpg">
-                                                    <img class="d-block w-100" src="img/product-img/pro-big-2.jpg" alt="Second slide"/>
-                                                </a>
-                                            </div>
-                                            <div class="carousel-item">
-                                                <a class="gallery_img" href="./img/product.jpg">
-                                                    <img class="d-block w-100" src="img/product-img/pro-big-3.jpg" alt="Third slide"/>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-lg-5">
-                                <div class="single_product_desc">
-
-                                    <div class="product-meta-data">
-                                        <div class="line"></div>
-                                        <p class="product-price">$180</p>
-                                        <a href="product-details.html">
-                                            <h6>White Modern Chair</h6>
-                                        </a>
-
-                                        <div class="ratings-review mb-15 d-flex align-items-center justify-content-between">
-                                            <div class="ratings">
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                            </div>
-
-                                        </div>
-
-                                        <p class="avaibility"><i class="fa fa-circle"></i> In Stock</p>
-                                    </div>
-
-                                    <div class="short_overview my-5">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid quae eveniet culpa officia quidem mollitia impedit iste asperiores nisi reprehenderit consequatur, autem, nostrum pariatur enim?</p>
-                                    </div>
-
-
-                                    <form class="cart clearfix" method="post">
-                                        <button type="submit" name="addtocart" value="5" class="btn amado-btn">Арендовать</button>
-                                    </form>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-*/}
-
-
-
                 <div className="section">
                     <div className="container">
                         <div className="row">
-
-
 
                             <div className="col-md-5 col-md-push-2">
                                 <div id="product-main-img">
 
                                     <div className="product-preview">
-                                        <img src="./img/baba-yaga.jpg" alt=""/>
+                                        <img src={this.state.image} alt=""/>
                                     </div>
 
                                 </div>
@@ -123,15 +70,15 @@ class ProductPage extends Component {
                             <div className="col-md-2  col-md-pull-5">
                                 <div id="product-imgs">
                                     <div className="product-preview">
-                                        <img src="./img/product.jpg" alt=""/>
+                                        <img src={this.state.image} alt=""/>
                                     </div>
 
                                     <div className="product-preview">
-                                        <img src="./img/baba-yaga.jpg" alt=""/>
+                                        <img src={this.state.image} alt=""/>
                                     </div>
 
                                     <div className="product-preview">
-                                        <img src="./img/product.jpg" alt=""/>
+                                        <img src={this.state.image} alt=""/>
                                     </div>
 
                                 </div>
@@ -139,7 +86,7 @@ class ProductPage extends Component {
 
                             <div className="col-md-5">
                                 <div className="product-details">
-                                    <h2 className="product-name">Баба яга</h2>
+                                    <h2 className="product-name">{this.state.title}</h2>
                                     <div>
                                         <div className="product-rating">
                                             <i className="fa fa-star"></i>
@@ -151,18 +98,15 @@ class ProductPage extends Component {
                                         <a className="review-link" href={"#"}>10 Review(s) | Add your review</a>
                                     </div>
                                     <div>
-                                        <h3 className="product-price">$980.00 <del className="product-old-price">$990.00</del>
+                                        <h3 className="product-price">{this.state.price}
                                         </h3>
-                                        <span className="product-available">In Stock</span>
+                                        <span className="product-available">{this.state.state}</span>
                                     </div>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                        consequat.</p>
+                                    <p>{this.state.description}</p>
 
                                     <ul className="product-btns">
                                         <li><a href={"#"}><i className="fa fa-heart-o"></i> add to wishlist</a></li>
-                                        <li><a href={"#"}><i className="fa fa-exchange"></i> add to compare</a></li>
+                                        <li><a href={"/user/" + this.state.owner.id}><i className="fa fa-user-circle"></i>{this.state.owner.firstName} {this.state.owner.lastName}</a></li>
                                     </ul>
                                     <ul className="product-links">
                                         <li>Category:</li>
@@ -175,9 +119,9 @@ class ProductPage extends Component {
                             <div className="col-md-12">
                                 <div id="product-tab">
                                     <ul className="tab-nav">
-                                        <li className="active"><a data-toggle="tab" href="#tab1">Description</a></li>
-                                        <li><a data-toggle="tab" href="#tab2">Details</a></li>
-                                        <li><a data-toggle="tab" href="#tab3">Reviews (3)</a></li>
+                                        <li className="active"><a data-toggle="tab" href="#tab1">Описание</a></li>
+                                        <li><a data-toggle="tab" href="#tab2">Детали</a></li>
+                                        <li><a data-toggle="tab" href="#tab3">Комментарии</a></li>
                                     </ul>
 
                                     <div className="tab-content">

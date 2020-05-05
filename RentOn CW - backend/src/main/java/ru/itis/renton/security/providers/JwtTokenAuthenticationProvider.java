@@ -26,6 +26,7 @@ public class JwtTokenAuthenticationProvider implements AuthenticationProvider {
 
         Claims body;
         try {
+            System.out.println(tokenAuthentication.getName());
             body = Jwts.parser()
                     .setSigningKey(jwtSecret)
                     .parseClaimsJws(tokenAuthentication.getName())

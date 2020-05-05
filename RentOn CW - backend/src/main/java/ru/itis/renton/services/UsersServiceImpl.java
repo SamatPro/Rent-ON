@@ -114,7 +114,7 @@ public class UsersServiceImpl implements UserService {
                     .build();
             List<Photo> photos = user.getProfilePhoto();
             if (!photos.isEmpty()){
-                profileDto.setImage(photos.get(photos.size()-1).getName());
+                profileDto.setImage(photos.get(photos.size()-1).getTitle());
             }
             return profileDto;
         }
@@ -138,7 +138,7 @@ public class UsersServiceImpl implements UserService {
                     .phone(user.getPhone())
                     .build();
             if (!photos.isEmpty()){
-                profileDto.setImage(photos.get(photos.size()-1).getName());
+                profileDto.setImage(photos.get(photos.size()-1).getTitle());
             }
             return profileDto;
         }

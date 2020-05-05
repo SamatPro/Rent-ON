@@ -132,7 +132,11 @@ class ProfileEdit extends Component {
                                         <span className="settings">
 
                                             {/*<form onChange={this.onFormSubmit}>*/}
-                                                <input type="file" name="myImage" onChange= {this.onFormSubmit} />
+                                            <label htmlFor="myImage">
+                                            <i className="fa fa-upload">
+                                                <input type="file" id="myImage" onChange= {this.onFormSubmit} hidden/>
+                                                    </i>
+                                                </label>
                                                 {/*<button type="submit">Upload</button>*/}
                                             {/*</form>*/}
 

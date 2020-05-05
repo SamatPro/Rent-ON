@@ -3,9 +3,9 @@ package ru.itis.renton.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ru.itis.renton.dto.PhotoDto;
 import ru.itis.renton.models.Photo;
 import ru.itis.renton.repositories.PhotosRepository;
+import ru.itis.renton.repositories.ProductsRepository;
 import ru.itis.renton.repositories.UsersRepository;
 import ru.itis.renton.security.helper.JwtHelper;
 
@@ -28,23 +28,36 @@ public class PhotosServiceImpl implements PhotosService {
     @Autowired
     private UsersRepository usersRepository;
 
+    @Autowired
+    private ProductsRepository productsRepository;
+
     @Override
     public String savePhoto(MultipartFile photo, String token) {
         String fileName = writeFile(photo);
-        bindPhoto(token, fileName);
+        bindWithUser(token, fileName);
         return fileName;
     }
 
     @Override
-    public String savePhoto(MultipartFile photo) {
-        return writeFile(photo);
+    public String savePhoto(MultipartFile photo, Long productId) {
+        String fileName = writeFile(photo);
+        bindWithProduct(fileName, productId);
+        return fileName;
     }
 
-    private void bindPhoto(String token, String name) {
+    private void bindWithProduct(String fileName, Long productId){
+        Photo photo = Photo.builder()
+                .title(fileName)
+                .product(productsRepository.findById(productId).get())
+                .build();
+        photosRepository.save(photo);
+    }
+
+    private void bindWithUser(String token, String fileName) {
         Long userId = Long.valueOf(jwtHelper.getUserId(token));
         Photo photo = Photo.builder()
                 .author(usersRepository.findUserById(userId).get())
-                .name(name)
+                .title(fileName)
                 .build();
         photosRepository.save(photo);
     }

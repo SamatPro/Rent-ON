@@ -1,5 +1,6 @@
 package ru.itis.renton.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,7 +25,7 @@ public class Product {
     private Double price;
     private String description;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
     private List<Photo> photos;
 
     @ManyToOne
