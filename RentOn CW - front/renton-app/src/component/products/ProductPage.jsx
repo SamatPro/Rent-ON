@@ -19,7 +19,11 @@ class ProductPage extends Component {
             description:'',
             state:'',
             image: '',
-            owner: ''
+            owner: {
+                id: '',
+                firstName:'',
+                lastName:'',
+            }
 
         }
         this.getProduct = this.getProduct.bind(this)
@@ -31,14 +35,19 @@ class ProductPage extends Component {
         // header.append("AUTH", localStorage.getItem("AUTH"))
         Service.getProduct(id)
             .then((res)=>{
+                console.log(res.data)
                 this.setState({
                     title: res.data.title,
                     price: res.data.price,
                     description: res.data.description,
                     state: res.data.state,
-                    owner: res.data.user
+                    owner: {
+                        id:res.data.user.id,
+                        firstName:res.data.user.firstName,
+                        lastName:res.data.user.lastName
+                    }
                 })
-                console.log(res.data)
+
                 if (res.data.image!==null){
                     this.setState({
                         image: API_IMG_URL + res.data.image

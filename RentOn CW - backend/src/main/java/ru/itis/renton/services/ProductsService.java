@@ -10,4 +10,5 @@ public interface ProductsService {
     Long add(ProductDto productDto, Authentication authentication);
     Product get(Long id);
     List<ProductDto> getRecommendations(Authentication authentication);
+    void addToFavourite(Long productId, Authentication authentication);
 }

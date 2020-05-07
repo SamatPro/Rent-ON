@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import AuthenticationService from "../../service/AuthenticationService";
 
 const API_IMG_URL = 'http://localhost:8080/image/'
 
@@ -7,7 +8,7 @@ class ProductBar extends Component {
 
     constructor(props) {
         super(props)
-        console.log(this.props.state)
+        console.log(this.props)
 
         this.state = {
             id: props.state.id,
@@ -17,27 +18,37 @@ class ProductBar extends Component {
             category: 'Поход',
             price: props.state.price
         }
-        this.openProduct = this.openProduct.bind(this)
+        // this.openProduct = this.openProduct.bind(this)
+        // this.addToFavourites = this.addToFavourites.bind(this)
     }
 
-    openProduct(id) {
-        this.props.history.push(`/product/${id}`)
-    }
+    // addToFavourites(id){
+    //     AuthenticationService.addToFavourites(id)
+    //         .then(r => console.log("success"))
+    //         .catch(console.log("error"));
+    // }
+
+    // openProduct(id) {
+    //     this.props.history.push(`/product/${id}`)
+    // }
 
     render() {
         return (
             <div>
                 <div className="col-md-4 col-xs-6">
                     <div class="product">
-                        <label htmlFor={"link" + this.state.id}>
+                        <a href={"/product/" + this.state.id}>
                             <div class="product-img">
                                 <img src={this.state.imgLink} alt=""/>
                             </div>
-                        </label>
+                        </a>
                         <div class="product-body">
                             <p class="product-category">{this.state.category}</p>
-                            <h3 class="product-name"><a href="/product">{this.state.title}</a></h3>
-                            <h4 class="product-price">{this.state.price}
+                            <h3 class="product-name">
+                                <a href={"/product/" + this.state.id}>{this.state.title}</a>
+                            </h3>
+                            <h4 class="product-price">
+                                {this.state.price}
                             </h4>
                             <div class="product-rating">
                                 <i class="fa fa-star"></i>
@@ -51,8 +62,8 @@ class ProductBar extends Component {
                                     class="tooltipp">сохранить</span></button>
                                 <button class="add-to-compare"><i class="fa fa-exchange"></i><span
                                     class="tooltipp">срjhjdjhdd</span></button>
-                                <button id={"link" + this.state.id} class="quick-view" onClick={this.openProduct(this.state.id)}>
-                                    <i class="fa fa-eye"></i><span class="tooltipp">посмотреть</span></button>
+                                {/*<button id={"link" + this.state.id} class="quick-view" onClick={this.openProduct(this.state.id)}>*/}
+                                {/*    <i class="fa fa-eye"></i><span class="tooltipp">посмотреть</span></button>*/}
                             </div>
                         </div>
                         <div class="add-to-cart">

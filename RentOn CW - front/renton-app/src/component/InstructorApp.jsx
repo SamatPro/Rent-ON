@@ -13,6 +13,7 @@ import Confirm from "./Confirm";
 import ProfileEdit from "./profile/ProfileEdit";
 import AuthenticatedRoute from "./AuthenticatedRoute";
 import ProductAdd from "./products/ProductAdd";
+import AnonymousRoute from "./AnonymousRoute";
 
 class InstructorApp extends Component {
 
@@ -26,11 +27,10 @@ class InstructorApp extends Component {
                         <>
                             <Switch>
                                 <Route path="/" exact component={MainPage} />
-                                <Route path="/login" exact component={Login} />
-                                <Route path="/register" exact component={Registration} />
-                                <Route path="/successful" exact component={SuccessfulRegistration}/>
+                                <AnonymousRoute path="/login" exact component={Login} />
+                                <AnonymousRoute path="/register" exact component={Registration} />
+                                <AnonymousRoute path="/successful" exact component={SuccessfulRegistration}/>
                                 <Route exact path='/confirm/:id' component={Confirm} />
-                                <Route path="/index" exact component={MainPage}/>
                                 <Route path="/product/add" exact component={ProductAdd}/>
                                 <Route exact path="/product/:id" component={ProductPage}/>
                                 <AuthenticatedRoute exact path="/product/:id/edit" component={ProductAdd}/>

@@ -47,6 +47,11 @@ class AuthenticationService {
         })
     }
 
+    addToFavourites(id){
+        this.setupAxiosInterceptors();
+        return axios.post(`${API_URL}/products/${id}/favourite`)
+    }
+
     registerSuccessfulLoginForJwt(username, token) {
         localStorage.setItem(USER_NAME_SESSION_ATTRIBUTE_NAME, username)
         localStorage.setItem('AUTH', token)
@@ -63,8 +68,8 @@ class AuthenticationService {
     isUserLoggedIn(){
         let user = localStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)
         console.log(user)
-        if (user === null) return false
-        return true
+        return user !== null;
+
     }
 
     getLoggedInUserName() {

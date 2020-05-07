@@ -101,7 +101,7 @@ class HeaderButtons extends Component {
                             <div>
                                 <a >
                                     <i className="fa fa-heart-o"></i>
-                                    <span>Мои пожелания</span>
+                                    <span>Сохраненные</span>
                                     <div className="qty">2</div>
                                 </a>
                             </div>

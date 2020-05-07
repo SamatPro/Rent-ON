@@ -13,8 +13,9 @@ class ProfileLogo extends Component {
             firstName: '',
             lastName: '',
         }
-        this.getUserData(localStorage.getItem("userId"));
+        this.getUserData = this.getUserData.bind(this)
         this.logout = this.logout.bind(this)
+        this.getUserData(localStorage.getItem("userId"));
     }
 
     logout(){
@@ -49,7 +50,7 @@ class ProfileLogo extends Component {
             return (
                 <ul className="header-links pull-right">
                     <li><a href={this.state.href}><i className="fa fa-user-o"></i>{this.state.firstName} {this.state.lastName}</a></li>
-                    <li><a href='#' onClick={this.logout}><i className="fa fa-sign-out"></i>Выйти</a></li>
+                    <li><a href='/' onClick={this.logout}><i className="fa fa-sign-out"></i>Выйти</a></li>
                 </ul>
             )
         }

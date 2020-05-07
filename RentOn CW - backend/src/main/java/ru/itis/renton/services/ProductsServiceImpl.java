@@ -3,6 +3,7 @@ package ru.itis.renton.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.itis.renton.dto.ProductDto;
 import ru.itis.renton.models.Product;
 import ru.itis.renton.models.User;
@@ -87,5 +88,18 @@ public class ProductsServiceImpl implements ProductsService {
                     )
                     .collect(Collectors.toList());
         }
+    }
+
+    @Override
+    @Transactional
+    public void addToFavourite(Long productId, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+
+        Product product = productsRepository.getProductById(productId);
+        product.getCandidates().add(user);
+//        user.getFavourites().add(product);
+//        usersRepository.saveAndFlush(user);
+        productsRepository.save(product);
+        System.out.println("Saved");
     }
 }

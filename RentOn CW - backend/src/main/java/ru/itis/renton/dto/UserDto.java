@@ -13,6 +13,7 @@ import java.sql.Date;
 @NoArgsConstructor
 @Builder
 public class UserDto {
+    private Long id;
     private String login;
     private String password;
     private String lastName;
@@ -22,6 +23,7 @@ public class UserDto {
 
     public static UserDto from(User user){
         return UserDto.builder()
+                .id(user.getId())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .address(user.getAddress())

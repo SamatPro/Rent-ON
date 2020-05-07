@@ -10,12 +10,12 @@ import javax.persistence.*;
 import java.util.List;
 
 @Builder
-@ToString
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 @Entity
 @Table(name = "users")
 public class User {
@@ -59,7 +59,7 @@ public class User {
 
     @ManyToMany
     @JsonIgnore
-    private List<Favourite> favourites;
+    private List<Product> favourites;
 }
 
 

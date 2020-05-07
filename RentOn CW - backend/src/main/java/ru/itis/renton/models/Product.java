@@ -47,4 +47,8 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private List<Order> orders;
+
+    @ManyToMany(mappedBy = "favourites")
+    @JsonIgnore
+    private List<User> candidates;
 }

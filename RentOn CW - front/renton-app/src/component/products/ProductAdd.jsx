@@ -104,7 +104,7 @@ class ProductAdd extends Component {
                                     </div>
                                 </div>
                                 <form onSubmit={this.addImage}>
-                                    <input type="file" name="myImage" onChange= {this.onChange} />
+                                    <input type="file" name="myImage" onChange= {this.onChange} required/>
                                     {/*<button type="submit">Upload</button>*/}
                                 </form>
 

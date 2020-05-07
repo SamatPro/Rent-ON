@@ -28,8 +28,15 @@ public class ProductsController {
         return ResponseEntity.ok(productsService.getRecommendations(authentication));
     }
 
-    @GetMapping("/{id:[0-9].+}")
+    @GetMapping("/{id}")
     private ResponseEntity<ProductDto> get(@PathVariable Long id){
         return ResponseEntity.ok(ProductDto.from(productsService.get(id)));
+    }
+
+    @PostMapping("/{id}/favourite")
+    private ResponseEntity addToFavourites(@PathVariable Long id,
+                                           Authentication authentication){
+        productsService.addToFavourite(id, authentication);
+        return ResponseEntity.ok().build();
     }
 }

@@ -477,7 +477,7 @@ textarea.input {
 }
 
 .header-search form .input {
-  width: calc(100% - 260px);
+  width: calc(100% - 100px);
   margin-right: -4px;
 }
 
@@ -873,6 +873,10 @@ textarea.input {
 }
 
 .product .product-img>img {
+  height: 6.5cm;
+  /*border-style: solid;*/
+  object-fit: cover;
+  /*overflow: hidden;*/
   width: 100%;
 }
 
