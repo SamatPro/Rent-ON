@@ -18,7 +18,7 @@ class ProductPage extends Component {
             price: '',
             description:'',
             state:'',
-            image: '/img/noProductImage.png',
+            image: '',
             owner: ''
 
         }
@@ -42,6 +42,10 @@ class ProductPage extends Component {
                 if (res.data.image!==null){
                     this.setState({
                         image: API_IMG_URL + res.data.image
+                    })
+                }else {
+                    this.setState({
+                        image: '/img/noProductImage.png'
                     })
                 }
             }).catch()
@@ -98,7 +102,7 @@ class ProductPage extends Component {
                                         <a className="review-link" href={"#"}>10 Review(s) | Add your review</a>
                                     </div>
                                     <div>
-                                        <h3 className="product-price">{this.state.price}
+                                        <h3 className="product-price">Цена: {this.state.price}
                                         </h3>
                                         <span className="product-available">{this.state.state}</span>
                                     </div>

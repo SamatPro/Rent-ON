@@ -1,8 +1,34 @@
 import React, {Component} from 'react'
 import Navbar from "./Navbar";
 import ProductBar from "./products/ProductBar";
+import AuthenticationService from "../service/AuthenticationService";
+import axios from "axios";
 
 class MainPage extends Component {
+
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            products: []
+
+        }
+        this.getProducts = this.getProducts.bind(this)
+        this.getProducts();
+    }
+
+    getProducts(){
+        AuthenticationService.setupAxiosInterceptors();
+
+        axios.get("http://localhost:8080/products")
+            .then(res => {
+                this.setState({
+                    products: res.data
+                })
+            }).catch((error) => {
+                console.log("error")
+        });
+    }
 
     render() {
         return (
@@ -12,13 +38,15 @@ class MainPage extends Component {
                     <div class="container">
                         <div id="store" class="col-md-12">
                             <div class="row">
-                                <ProductBar/>
-                                <ProductBar/>
-                                <ProductBar/>
-                                <ProductBar/>
-                                <ProductBar/>
-                                <ProductBar/>
-                                <ProductBar/>
+                                {this.state.products.map((product)=> <ProductBar state={product}/>)}
+
+
+                                {/*<ProductBar/>*/}
+                                {/*<ProductBar/>*/}
+                                {/*<ProductBar/>*/}
+                                {/*<ProductBar/>*/}
+                                {/*<ProductBar/>*/}
+                                {/*<ProductBar/>*/}
 
                                 <div className="clearfix visible-sm visible-xs"></div>
 

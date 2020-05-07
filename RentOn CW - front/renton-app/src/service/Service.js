@@ -13,7 +13,7 @@ class Service {
     }
 
     getProduct(id){
-        return axios.get(`${API_URL}/product/${id}`)
+        return axios.get(`${API_URL}/products/${id}`)
     }
 
 

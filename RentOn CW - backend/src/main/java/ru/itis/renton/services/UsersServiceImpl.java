@@ -1,9 +1,13 @@
 package ru.itis.renton.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.itis.renton.dto.LoginDto;
 import ru.itis.renton.dto.ProfileDto;
 import ru.itis.renton.dto.TokenDto;
 import ru.itis.renton.dto.UserDto;
@@ -11,15 +15,12 @@ import ru.itis.renton.forms.ProfileForm;
 import ru.itis.renton.models.Photo;
 import ru.itis.renton.models.User;
 import ru.itis.renton.repositories.UsersRepository;
-import ru.itis.renton.security.helper.JwtHelper;
-import ru.itis.renton.security.providers.JwtTokenAuthenticationProvider;
+import ru.itis.renton.security.providers.JwtTokenProvider;
 import ru.itis.renton.security.role.Role;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-import static java.util.Arrays.asList;
 
 @Service
 @Transactional
@@ -29,10 +30,13 @@ public class UsersServiceImpl implements UserService {
     private final String FOOTER = "";
 
     @Autowired
-    private JwtHelper jwtHelper;
+    private JwtTokenProvider jwtTokenProvider;
 
     @Autowired
     private UsersRepository usersRepository;
+
+    @Autowired
+    AuthenticationManager authenticationManager;
 
     @Autowired
     private PasswordEncoder encoder;
@@ -41,12 +45,18 @@ public class UsersServiceImpl implements UserService {
     private EmailService emailService;
 
     @Override
-    public TokenDto login(String login, String password) {
-        Optional<User> candidate = usersRepository.getByLoginIgnoreCase(login);
+    public TokenDto login(LoginDto loginDto) {
+        Optional<User> candidate = usersRepository.getByLoginIgnoreCase(loginDto.getLogin());
         if (candidate.isPresent()) {
             User user = candidate.get();
-            if (encoder.matches(password, user.getPasswordHash())) {
-                String token = jwtHelper.createToken(user);
+            if (encoder.matches(loginDto.getPassword(), user.getPasswordHash())) {
+                Authentication authentication = authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                loginDto.getLogin(),
+                                loginDto.getPassword()
+                        )
+                );
+                String token = jwtTokenProvider.generateToken(authentication);
                 return TokenDto.from(token, user.getId());
             }
         }
@@ -80,12 +90,9 @@ public class UsersServiceImpl implements UserService {
     }
 
     @Override
-    public void update(ProfileForm userDto, String token) {
-        String login = jwtHelper.getUsername(token);
+    public void update(ProfileForm userDto, Authentication authentication) {
 
-        Optional<User> candidate = usersRepository.getByLoginIgnoreCase(login);
-        if (candidate.isPresent()) {
-            User user = candidate.get();
+            User user = (User) authentication.getPrincipal();
             if (!userDto.getPassword().isEmpty()){
                 user.setPasswordHash(encoder.encode(userDto.getPassword()));
             }
@@ -94,15 +101,12 @@ public class UsersServiceImpl implements UserService {
             user.setPhone(userDto.getPhone());
             user.setAddress(userDto.getAddress());
             usersRepository.save(user);
-            return;
-        }
-        throw new IllegalArgumentException("User updating attempt failed");
     }
 
     @Override
     @Transactional
-    public ProfileDto getUser(String token, Long id) {
-        Long currentUserId = Long.valueOf(jwtHelper.getUserId(token));
+    public ProfileDto getUser(Authentication authentication, Long id) {
+
         Optional<User> userOptional = usersRepository.findUserById(id);
         if (userOptional.isPresent()){
             User user = userOptional.get();
@@ -124,12 +128,12 @@ public class UsersServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public ProfileDto getUser(String token) {
-        Long userId = Long.valueOf(jwtHelper.getUserId(token));
-        Optional<User> userOptional = usersRepository.findUserById(userId);
+    public ProfileDto getUser(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        Optional<User> userOptional = usersRepository.findUserById(user.getId());
         if (userOptional.isPresent()){
             List<Photo> photos = userOptional.get().getProfilePhoto();
-            User user = userOptional.get();
+            user = userOptional.get();
             ProfileDto profileDto = ProfileDto.builder()
                     .login(user.getLogin())
                     .firstName(user.getFirstName())

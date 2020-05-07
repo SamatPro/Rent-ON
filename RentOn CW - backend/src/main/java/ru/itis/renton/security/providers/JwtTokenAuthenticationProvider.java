@@ -4,21 +4,31 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import ru.itis.renton.security.authentication.JwtTokenAuthentication;
 import ru.itis.renton.security.details.UserDetailsImpl;
+import ru.itis.renton.services.UsersServiceImpl;
 
 @Component
 public class JwtTokenAuthenticationProvider implements AuthenticationProvider {
 
     @Value("${security.jwt.token.secret-key}")
     private String jwtSecret;
+
+    @Autowired
+    @Qualifier("customUserDetailsService")
+    private UserDetailsService userDetailsService;
+
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -36,14 +46,14 @@ public class JwtTokenAuthenticationProvider implements AuthenticationProvider {
             throw new AuthenticationServiceException("Invalid token");
         }
 
-        UserDetails userDetails = new UserDetailsImpl(
-                Long.parseLong(body.getSubject()),
-                body.get("role").toString(),
-                body.get("login").toString()
-        );
+        UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(body.get("login").toString());
+        if (userDetails != null){
+            tokenAuthentication.setUserDetails(userDetails);
+            tokenAuthentication.setAuthenticated(true);
+        }else {
+            throw new BadCredentialsException("Incorrect Token");
+        }
 
-        tokenAuthentication.setUserDetails(userDetails);
-        tokenAuthentication.setAuthenticated(true);
         return tokenAuthentication;
     }
 

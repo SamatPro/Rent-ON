@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
 
-@Component
+//@Component
 public class JwtHelper {
     @Value("${security.jwt.token.secret-key}")
     private String secretKey;

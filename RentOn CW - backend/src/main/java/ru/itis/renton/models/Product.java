@@ -31,10 +31,20 @@ public class Product {
     @ManyToOne
     private User owner;
 
+    @OneToMany(mappedBy = "product")
+    private List<Comment> comments;
 
-//    private List<Comment> comments;
-//    private Set<Category> categories;
+    @ElementCollection(targetClass = Category.class)
+    @CollectionTable(
+            name = "category",
+            joinColumns = @JoinColumn(name = "product_id")
+    )
+    @Column(name = "category_id")
+    private Set<Category> categories;
 
     @Enumerated(value = EnumType.STRING)
     private State state;
+
+    @OneToMany(mappedBy = "product")
+    private List<Order> orders;
 }

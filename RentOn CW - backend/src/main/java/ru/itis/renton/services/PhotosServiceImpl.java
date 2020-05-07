@@ -1,13 +1,15 @@
 package ru.itis.renton.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.itis.renton.models.Photo;
+import ru.itis.renton.models.User;
 import ru.itis.renton.repositories.PhotosRepository;
 import ru.itis.renton.repositories.ProductsRepository;
 import ru.itis.renton.repositories.UsersRepository;
-import ru.itis.renton.security.helper.JwtHelper;
+import ru.itis.renton.security.providers.JwtTokenProvider;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -20,7 +22,7 @@ public class PhotosServiceImpl implements PhotosService {
     private final String DIR = "uploads/";
 
     @Autowired
-    private JwtHelper jwtHelper;
+    private JwtTokenProvider jwtTokenProvider;
 
     @Autowired
     private PhotosRepository photosRepository;
@@ -32,9 +34,9 @@ public class PhotosServiceImpl implements PhotosService {
     private ProductsRepository productsRepository;
 
     @Override
-    public String savePhoto(MultipartFile photo, String token) {
+    public String savePhoto(MultipartFile photo, Authentication authentication) {
         String fileName = writeFile(photo);
-        bindWithUser(token, fileName);
+        bindWithUser(authentication, fileName);
         return fileName;
     }
 
@@ -53,10 +55,9 @@ public class PhotosServiceImpl implements PhotosService {
         photosRepository.save(photo);
     }
 
-    private void bindWithUser(String token, String fileName) {
-        Long userId = Long.valueOf(jwtHelper.getUserId(token));
+    private void bindWithUser(Authentication authentication, String fileName) {
         Photo photo = Photo.builder()
-                .author(usersRepository.findUserById(userId).get())
+                .author((User) authentication.getPrincipal())
                 .title(fileName)
                 .build();
         photosRepository.save(photo);

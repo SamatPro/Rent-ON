@@ -1,23 +1,27 @@
 import React, {Component} from 'react'
 
+const API_IMG_URL = 'http://localhost:8080/image/'
+
+
 class ProductBar extends Component {
 
     constructor(props) {
         super(props)
-
-        this.openProduct = this.openProduct.bind(this)
+        console.log(this.props.state)
 
         this.state = {
-            id: 2,
-            title: 'Велосипед',
-            imgLink: './img/product.jpg',
+            id: props.state.id,
+            title: props.state.title,
+            description: props.state.description,
+            imgLink: API_IMG_URL + props.state.image,
             category: 'Поход',
-            price: '$988.56'
+            price: props.state.price
         }
+        this.openProduct = this.openProduct.bind(this)
     }
 
     openProduct(id) {
-        window.location.assign("/product")
+        this.props.history.push(`/product/${id}`)
     }
 
     render() {
@@ -25,20 +29,15 @@ class ProductBar extends Component {
             <div>
                 <div className="col-md-4 col-xs-6">
                     <div class="product">
-                        <div class="product-img">
-                            <img src={this.state.imgLink} alt=""/>
-                            <div class="product-label">
-                                <span class="sale">-30%</span>
-                                <span class="new">NEW</span>
+                        <label htmlFor={"link" + this.state.id}>
+                            <div class="product-img">
+                                <img src={this.state.imgLink} alt=""/>
                             </div>
-                        </div>
+                        </label>
                         <div class="product-body">
                             <p class="product-category">{this.state.category}</p>
                             <h3 class="product-name"><a href="/product">{this.state.title}</a></h3>
                             <h4 class="product-price">{this.state.price}
-                                <del
-                                    class="product-old-price">$990.00
-                                </del>
                             </h4>
                             <div class="product-rating">
                                 <i class="fa fa-star"></i>
@@ -51,9 +50,9 @@ class ProductBar extends Component {
                                 <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span
                                     class="tooltipp">сохранить</span></button>
                                 <button class="add-to-compare"><i class="fa fa-exchange"></i><span
-                                    class="tooltipp">сравнить</span></button>
-                                <button class="quick-view"><i class="fa fa-eye"></i><span
-                                    class="tooltipp">посмотреть</span></button>
+                                    class="tooltipp">срjhjdjhdd</span></button>
+                                <button id={"link" + this.state.id} class="quick-view" onClick={this.openProduct(this.state.id)}>
+                                    <i class="fa fa-eye"></i><span class="tooltipp">посмотреть</span></button>
                             </div>
                         </div>
                         <div class="add-to-cart">

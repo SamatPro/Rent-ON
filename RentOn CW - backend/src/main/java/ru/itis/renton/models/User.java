@@ -2,6 +2,8 @@ package ru.itis.renton.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import ru.itis.renton.security.role.Role;
 
 import javax.persistence.*;
@@ -37,16 +39,27 @@ public class User {
     private Long phone;
     private Boolean isUserNonLocked;
     private Boolean isEmailConfirmed;
+    @JsonIgnore
     private String confirmString;
 
-    //    private List<Order> orders;
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "tenant")
     @JsonIgnore
+    private List<Order> orders;
+
+    @OneToMany(mappedBy = "author")
+    @JsonIgnore
+    private List<Comment> comments;
+
+    @OneToMany(mappedBy = "owner")
     private List<Product> placements;
 
     @OneToMany(mappedBy = "author")
     @JsonIgnore
     private List<Photo> profilePhoto;
+
+    @ManyToMany
+    @JsonIgnore
+    private List<Favourite> favourites;
 }
 
 

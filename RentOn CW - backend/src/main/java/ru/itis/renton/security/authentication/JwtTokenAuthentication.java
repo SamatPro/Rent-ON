@@ -3,18 +3,20 @@ package ru.itis.renton.security.authentication;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import ru.itis.renton.security.details.UserDetailsImpl;
 
 import java.util.Collection;
 
 public class JwtTokenAuthentication implements Authentication {
 
     private boolean isAuthenticated;
-    private UserDetails userDetails;
+    private UserDetailsImpl userDetails;
     private String token;
 
     public JwtTokenAuthentication(String token) {
         this.token = token;
     }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -23,7 +25,7 @@ public class JwtTokenAuthentication implements Authentication {
 
     @Override
     public Object getCredentials() {
-        return null;
+        return userDetails.getPassword();
     }
 
     @Override
@@ -33,7 +35,7 @@ public class JwtTokenAuthentication implements Authentication {
 
     @Override
     public Object getPrincipal() {
-        return userDetails;
+        return userDetails.getUser();
     }
 
     @Override
@@ -51,7 +53,7 @@ public class JwtTokenAuthentication implements Authentication {
         return token;
     }
 
-    public void setUserDetails(UserDetails userDetails) {
+    public void setUserDetails(UserDetailsImpl userDetails) {
         this.userDetails = userDetails;
     }
 }

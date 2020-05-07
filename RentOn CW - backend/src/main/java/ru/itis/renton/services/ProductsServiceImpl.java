@@ -1,19 +1,18 @@
 package ru.itis.renton.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import ru.itis.renton.dto.ProductDto;
-import ru.itis.renton.models.Photo;
 import ru.itis.renton.models.Product;
 import ru.itis.renton.models.User;
 import ru.itis.renton.repositories.PhotosRepository;
 import ru.itis.renton.repositories.ProductsRepository;
 import ru.itis.renton.repositories.UsersRepository;
-import ru.itis.renton.security.helper.JwtHelper;
+import ru.itis.renton.security.providers.JwtTokenProvider;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductsServiceImpl implements ProductsService {
@@ -28,13 +27,11 @@ public class ProductsServiceImpl implements ProductsService {
     private UsersRepository usersRepository;
 
     @Autowired
-    private JwtHelper jwtHelper;
+    private JwtTokenProvider jwtTokenProvider;
 
     @Override
-    public Long add(ProductDto productDto, String token) {
-        Long userId = Long.valueOf(jwtHelper.getUserId(token));
-        User user = usersRepository.findUserById(userId).get();
-
+    public Long add(ProductDto productDto, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
 
         Product product = Product.builder()
                 .title(productDto.getTitle())
@@ -49,5 +46,46 @@ public class ProductsServiceImpl implements ProductsService {
     @Override
     public Product get(Long id) {
         return productsRepository.findById(id).get();
+    }
+
+    @Override
+    public List<ProductDto> getRecommendations(Authentication authentication) {
+        if (authentication == null){
+            return productsRepository.findAll().stream()
+                    .map(product ->
+                            ProductDto.builder()
+                                    .id(product.getId())
+                                    .title(product.getTitle())
+                                    .description(product.getDescription())
+                                    .price(product.getPrice())
+                                    .image(
+                                            product.getPhotos().isEmpty()
+                                                    ? ""
+                                                    : product.getPhotos().get(product.getPhotos().size()-1).getTitle()
+                                    )
+                                    .build()
+                    )
+                    .collect(Collectors.toList());
+        }else {
+            User user = (User) authentication.getPrincipal();
+            return productsRepository.findAll().stream()
+                    .filter(product ->
+                            !product.getOwner().getId().equals(user.getId())
+                    )
+                    .map(product ->
+                            ProductDto.builder()
+                                    .id(product.getId())
+                                    .title(product.getTitle())
+                                    .description(product.getDescription())
+                                    .price(product.getPrice())
+                                    .image(
+                                            product.getPhotos().isEmpty()
+                                                    ? ""
+                                                    : product.getPhotos().get(product.getPhotos().size() - 1).getTitle()
+                                    )
+                                    .build()
+                    )
+                    .collect(Collectors.toList());
+        }
     }
 }

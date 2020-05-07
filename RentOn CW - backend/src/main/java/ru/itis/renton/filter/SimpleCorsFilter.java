@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-public class SimpleCorsFiler implements Filter {
+public class SimpleCorsFilter implements Filter {
 
 
     @Override

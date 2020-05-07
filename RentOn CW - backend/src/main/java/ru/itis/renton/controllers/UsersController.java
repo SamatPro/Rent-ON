@@ -5,15 +5,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ru.itis.renton.dto.LoginDto;
 import ru.itis.renton.dto.ProfileDto;
 import ru.itis.renton.dto.TokenDto;
 import ru.itis.renton.dto.UserDto;
 import ru.itis.renton.forms.ProfileForm;
-import ru.itis.renton.models.User;
-import ru.itis.renton.security.authentication.JwtTokenAuthentication;
 import ru.itis.renton.services.UserService;
 
 @RestController
@@ -24,7 +21,7 @@ public class UsersController {
 
     @PostMapping("/login")
     public ResponseEntity<TokenDto> login(@RequestBody LoginDto loginDto) {
-        return ResponseEntity.ok(userService.login(loginDto.getLogin(), loginDto.getPassword()));
+        return ResponseEntity.ok(userService.login(loginDto));
     }
 
     @PostMapping("/registration")
@@ -39,9 +36,9 @@ public class UsersController {
 
     @GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProfileDto> getUser(@PathVariable Long id,
-                                              @RequestHeader("AUTH") String token){
+                                              Authentication authentication){
         try{
-            return ResponseEntity.ok(userService.getUser(token, id));
+            return ResponseEntity.ok(userService.getUser(authentication, id));
         }catch (IllegalArgumentException e){
             return ResponseEntity.badRequest().build();
         }
@@ -49,9 +46,9 @@ public class UsersController {
 
     @PutMapping("/update")
     public ResponseEntity update(@RequestBody ProfileForm profileForm,
-                                 @RequestHeader("AUTH") String token){
+                                 Authentication authentication){
         try{
-            userService.update(profileForm, token);
+            userService.update(profileForm, authentication);
             return ResponseEntity.ok().build();
         }catch (IllegalArgumentException e){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
@@ -59,9 +56,9 @@ public class UsersController {
     }
 
     @GetMapping(value = "/user-info", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProfileDto> getUser(@RequestHeader("AUTH") String token){
+    public ResponseEntity<ProfileDto> getUser(Authentication authentication){
         try{
-            return ResponseEntity.ok(userService.getUser(token));
+            return ResponseEntity.ok(userService.getUser(authentication));
         }catch (IllegalArgumentException e){
             return ResponseEntity.badRequest().build();
         }

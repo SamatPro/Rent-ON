@@ -1,14 +1,13 @@
 package ru.itis.renton.controllers;
 
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.itis.renton.dto.PhotoDto;
 import ru.itis.renton.services.PhotosService;
 
 import java.io.File;
@@ -23,11 +22,10 @@ public class PhotosController {
 
     @PostMapping(value = "/image-upload")
     public ResponseEntity<String> uploadProfilePhoto(@RequestParam("file") MultipartFile photoDto,
-                                      @RequestHeader("AUTH") String token){
-        System.out.println(token);
+                                                     Authentication authentication){
         if (!photoDto.isEmpty()) {
             System.out.println("saving");
-            String fileName = photosService.savePhoto(photoDto, token);
+            String fileName = photosService.savePhoto(photoDto, authentication);
             return ResponseEntity.ok(fileName);
         }else {
             return ResponseEntity.badRequest().build();

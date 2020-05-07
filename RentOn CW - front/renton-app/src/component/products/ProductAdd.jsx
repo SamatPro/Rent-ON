@@ -20,10 +20,8 @@ class ProductAdd extends Component {
             description:'',
             owner: '',
             state: '',
+            image:'/img/noProductImage.png',
             category:'',
-            links: [],
-            link:'',
-            images: [],
             file: null
 
         }
@@ -35,24 +33,23 @@ class ProductAdd extends Component {
     }
 
     addImage(productId){
-        // AuthenticationService.setupAxiosInterceptors();
+        AuthenticationService.setupAxiosInterceptors();
         let data = new FormData();
         data.append('file', this.state.file);
         data.append('productId', productId);
 
         axios.post("http://localhost:8080/product-image-upload", data)
             .then(res => {
-                this.setState({
-                    // link: API_IMG_URL + res.data,
-                    // images: this.state.images.push(res.data)
-                });
+                this.props.history.push(`/product/${productId}`)
             }).catch((error) => {
                 console.log("error")
         });
     }
 
     onChange(e) {
-        this.setState({file:e.target.files[0]});
+        this.setState({
+            file:e.target.files[0],
+        });
     }
 
     handleChange(event) {
@@ -69,7 +66,6 @@ class ProductAdd extends Component {
             .then((res)=>{
                 const id = res.data;
                 this.addImage(id);
-                this.props.history.push(`/product/${id}`)
             }
             )
     }
@@ -88,15 +84,15 @@ class ProductAdd extends Component {
                             <div className="col-md-3">
                                 <div id="product-imgs">
                                     <div className="product-preview">
-                                        <img src="https://sun9-67.userapi.com/c852232/v852232787/e7acc/NF9GFqIDnRg.jpg" alt=""/>
+                                        <img src={this.state.image} alt=""/>
                                     </div>
 
                                     <div className="product-preview">
-                                        <img src="https://sun9-67.userapi.com/c852232/v852232787/e7acc/NF9GFqIDnRg.jpg" alt=""/>
+                                        <img src={this.state.image} alt=""/>
                                     </div>
 
                                     <div className="product-preview">
-                                        <img src="https://sun9-67.userapi.com/c852232/v852232787/e7acc/NF9GFqIDnRg.jpg" alt=""/>
+                                        <img src={this.state.image} alt=""/>
                                     </div>
                                 </div>
                             </div>
@@ -104,7 +100,7 @@ class ProductAdd extends Component {
                             <div className="col-md-4">
                                 <div id="product-main-img">
                                     <div className="product-preview">
-                                        <img src={this.state.link} alt=""/>
+                                        <img src={this.state.image} alt=""/>
                                     </div>
                                 </div>
                                 <form onSubmit={this.addImage}>

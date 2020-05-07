@@ -17,18 +17,11 @@ public class UserDetailsImpl implements UserDetails {
         this.user = user;
     }
 
-    public UserDetailsImpl(Long id, String role, String login){
-        this.user = User.builder()
-                .id(id)
-                .role(Role.valueOf(role))
-                .login(login)
-                .build();
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         GrantedAuthority authority = new SimpleGrantedAuthority(user.getRole().toString());
-        return Collections.singletonList(authority);    }
+        return Collections.singletonList(authority);
+    }
 
     @Override
     public String getPassword() {

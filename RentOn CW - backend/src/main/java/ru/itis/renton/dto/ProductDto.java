@@ -18,7 +18,7 @@ public class ProductDto {
     private String title;
     private Double price;
     private String description;
-    private User user;
+    private UserDto user;
     private String image;
 
     public static ProductDto from(Product product){
@@ -27,7 +27,7 @@ public class ProductDto {
                 .title(product.getTitle())
                 .price(product.getPrice())
                 .description(product.getDescription())
-                .user(product.getOwner())
+                .user(UserDto.from(product.getOwner()))
                 .build();
         if (!product.getPhotos().isEmpty()){
             productDto.setImage(product.getPhotos().get(product.getPhotos().size()-1).getTitle());

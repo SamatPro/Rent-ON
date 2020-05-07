@@ -1,18 +1,31 @@
 package ru.itis.renton.models;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import lombok.*;
+
+import javax.persistence.*;
 import java.sql.Timestamp;
 
+
+@Builder
+@ToString
+@EqualsAndHashCode
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Entity
+@Table
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @ManyToOne
     private User user;
     private String message;
     private Timestamp createdAt;
-    private Deal deal;
+
+    @ManyToOne
+    private Order order;
+
     private String timestamp;
 }

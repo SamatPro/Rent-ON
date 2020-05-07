@@ -1,15 +1,20 @@
 package ru.itis.renton.security.filters;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import ru.itis.renton.security.authentication.JwtTokenAuthentication;
+import ru.itis.renton.security.providers.JwtTokenAuthenticationProvider;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-@Component
+//@Component
 public class JwtTokenAuthFilter implements Filter {
+
+    @Autowired
+    private JwtTokenAuthenticationProvider authenticationProvider;
 
 
     @Override
@@ -23,7 +28,7 @@ public class JwtTokenAuthFilter implements Filter {
         String token = request.getHeader("AUTH");
         JwtTokenAuthentication authentication;
 
-        if (token == null || !token.startsWith("Bearer ")) {
+        if (token == null) {
             authentication = new JwtTokenAuthentication(null);
             authentication.setAuthenticated(false);
         } else {
