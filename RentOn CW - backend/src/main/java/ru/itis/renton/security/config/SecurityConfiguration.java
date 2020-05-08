@@ -59,7 +59,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/registration").anonymous();
         http.csrf().disable();
         http.sessionManagement().disable();
-        http.authorizeRequests().antMatchers("/explorer/index.html").permitAll();
     }
 
     @Override
