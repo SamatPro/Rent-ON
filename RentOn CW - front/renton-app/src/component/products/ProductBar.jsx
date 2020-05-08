@@ -16,17 +16,39 @@ class ProductBar extends Component {
             description: props.state.description,
             imgLink: API_IMG_URL + props.state.image,
             category: 'Поход',
-            price: props.state.price
+            price: props.state.price,
+            isFavourite: props.state.isFavourite ? 'fa fa-heart' : 'fa fa-heart-o',
+            favouriteText: props.state.isFavourite ? 'УБРАТЬ' : 'В ИЗБРАННОЕ',
+
         }
         // this.openProduct = this.openProduct.bind(this)
-        // this.addToFavourites = this.addToFavourites.bind(this)
+        this.addToFavourites = this.addToFavourites.bind(this)
     }
 
-    // addToFavourites(id){
-    //     AuthenticationService.addToFavourites(id)
-    //         .then(r => console.log("success"))
-    //         .catch(console.log("error"));
-    // }
+    addToFavourites(id){
+        AuthenticationService.addToFavourites(id)
+            .then(r => {
+                console.log("success")
+                console.log(r.data)
+                this.setState({
+                    isFavourite: r.data ? 'fa fa-heart' : 'fa fa-heart-o',
+                    favouriteText: r.data ? 'УБРАТЬ' : 'В ИЗБРАННОЕ',
+
+                })
+                // if (r.data){
+                //     this.setState({
+                //         isFavourite: r.data ? 'fa fa-heart' : 'fa fa-heart-o',
+                //         favouriteText: r.data ? 'УДАЛИТЬ' : 'СОХРАНИТЬ',
+                //
+                //     })
+                // }else {
+                //     this.setState({
+                //         isFavourite:'fa fa-heart-o'
+                //     })
+                // }
+            })
+            .catch(console.log("error"));
+    }
 
     // openProduct(id) {
     //     this.props.history.push(`/product/${id}`)
@@ -58,8 +80,9 @@ class ProductBar extends Component {
                                 <i class="fa fa-star"></i>
                             </div>
                             <div class="product-btns">
-                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span
-                                    class="tooltipp">сохранить</span></button>
+                                <button onClick={()=> this.addToFavourites(this.state.id)} class="add-to-wishlist">
+                                    <i class={this.state.isFavourite}></i>
+                                    <span class="tooltipp">{this.state.favouriteText}</span></button>
                                 <button class="add-to-compare"><i class="fa fa-exchange"></i><span
                                     class="tooltipp">срjhjdjhdd</span></button>
                                 {/*<button id={"link" + this.state.id} class="quick-view" onClick={this.openProduct(this.state.id)}>*/}

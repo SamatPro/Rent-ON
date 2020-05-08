@@ -25,7 +25,7 @@ public class Message {
     private Timestamp createdAt;
 
     @ManyToOne
-    private Order order;
+    private Rent rent;
 
     private String timestamp;
 }

@@ -12,6 +12,9 @@ import ru.itis.renton.repositories.ProductsRepository;
 import ru.itis.renton.repositories.UsersRepository;
 import ru.itis.renton.security.providers.JwtTokenProvider;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +32,9 @@ public class ProductsServiceImpl implements ProductsService {
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+
+    @PersistenceContext
+    private EntityManager em; // чтобы удалить связь многие-ко-многим
 
     @Override
     public Long add(ProductDto productDto, Authentication authentication) {
@@ -50,21 +56,23 @@ public class ProductsServiceImpl implements ProductsService {
     }
 
     @Override
+    @Transactional
     public List<ProductDto> getRecommendations(Authentication authentication) {
         if (authentication == null){
             return productsRepository.findAll().stream()
-                    .map(product ->
-                            ProductDto.builder()
-                                    .id(product.getId())
-                                    .title(product.getTitle())
-                                    .description(product.getDescription())
-                                    .price(product.getPrice())
-                                    .image(
-                                            product.getPhotos().isEmpty()
-                                                    ? ""
-                                                    : product.getPhotos().get(product.getPhotos().size()-1).getTitle()
-                                    )
-                                    .build()
+                    .map(product -> ProductDto.from(product, null)
+//                            ProductDto.builder()
+//                                    .id(product.getId())
+//                                    .title(product.getTitle())
+//                                    .description(product.getDescription())
+//                                    .price(product.getPrice())
+//                                    .image(
+//                                            product.getPhotos().isEmpty()
+//                                                    ? ""
+//                                                    : product.getPhotos().get(product.getPhotos().size()-1).getTitle()
+//                                    )
+//                                    .isFavourite(false)
+//                                    .build()
                     )
                     .collect(Collectors.toList());
         }else {
@@ -73,18 +81,19 @@ public class ProductsServiceImpl implements ProductsService {
                     .filter(product ->
                             !product.getOwner().getId().equals(user.getId())
                     )
-                    .map(product ->
-                            ProductDto.builder()
-                                    .id(product.getId())
-                                    .title(product.getTitle())
-                                    .description(product.getDescription())
-                                    .price(product.getPrice())
-                                    .image(
-                                            product.getPhotos().isEmpty()
-                                                    ? ""
-                                                    : product.getPhotos().get(product.getPhotos().size() - 1).getTitle()
-                                    )
-                                    .build()
+                    .map(product -> ProductDto.from(product, authentication)
+//                            ProductDto.builder()
+//                                    .id(product.getId())
+//                                    .title(product.getTitle())
+//                                    .description(product.getDescription())
+//                                    .price(product.getPrice())
+//                                    .image(
+//                                            product.getPhotos().isEmpty()
+//                                                    ? ""
+//                                                    : product.getPhotos().get(product.getPhotos().size() - 1).getTitle()
+//                                    )
+//                                    .isFavourite(product.getCandidates().contains(user))
+//                                    .build()
                     )
                     .collect(Collectors.toList());
         }
@@ -92,14 +101,33 @@ public class ProductsServiceImpl implements ProductsService {
 
     @Override
     @Transactional
-    public void addToFavourite(Long productId, Authentication authentication) {
+    public Boolean addToFavourite(Long productId, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
 
         Product product = productsRepository.getProductById(productId);
-        product.getCandidates().add(user);
-//        user.getFavourites().add(product);
-//        usersRepository.saveAndFlush(user);
-        productsRepository.save(product);
-        System.out.println("Saved");
+        if (product.getCandidates().stream().noneMatch(p -> (p.getId().equals(user.getId())))){
+//            product.getCandidates().add(user);
+            user.getFavourites().add(product);
+//            productsRepository.saveAndFlush(product);
+            usersRepository.save(user);
+            System.out.println("saved");
+            return true;
+        }else {
+            Query query =
+                    em.createNativeQuery("DELETE FROM users_favourites uf " +
+                            "WHERE uf.user_id=:userId " +
+                            "AND uf.product_id=:productId");
+
+            query.setParameter("userId",user.getId());
+            query.setParameter("productId",productId);
+            query.executeUpdate();
+//            user.getFavourites().remove(product);
+//            product.getCandidates().remove(user);
+//            productsRepository.save(product);
+//            usersRepository.save(user);
+
+            System.out.println("deleted");
+            return false;
+        }
     }
 }

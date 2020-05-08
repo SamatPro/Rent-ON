@@ -44,7 +44,7 @@ public class User {
 
     @OneToMany(mappedBy = "tenant")
     @JsonIgnore
-    private List<Order> orders;
+    private List<Rent> rents;
 
     @OneToMany(mappedBy = "author")
     @JsonIgnore
@@ -58,6 +58,10 @@ public class User {
     private List<Photo> profilePhoto;
 
     @ManyToMany
+    @JoinTable(
+            name = "users_favourites",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
     @JsonIgnore
     private List<Product> favourites;
 }

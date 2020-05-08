@@ -15,6 +15,7 @@ class MainPage extends Component {
         }
         this.getProducts = this.getProducts.bind(this)
         this.getProducts();
+        // this.addToFavourites = this.addToFavourites.bind(this);
     }
 
     getProducts(){
@@ -29,6 +30,12 @@ class MainPage extends Component {
                 console.log("error")
         });
     }
+    // addToFavourites(id){
+    //     console.log(id)
+    //     AuthenticationService.addToFavourites(id)
+    //         .then(r => console.log("success"))
+    //         .catch(console.log("error"));
+    // }
 
     render() {
         return (
@@ -39,14 +46,6 @@ class MainPage extends Component {
                         <div id="store" class="col-md-12">
                             <div class="row">
                                 {this.state.products.map((product)=> <ProductBar state={product}/>)}
-
-
-                                {/*<ProductBar/>*/}
-                                {/*<ProductBar/>*/}
-                                {/*<ProductBar/>*/}
-                                {/*<ProductBar/>*/}
-                                {/*<ProductBar/>*/}
-                                {/*<ProductBar/>*/}
 
                                 <div className="clearfix visible-sm visible-xs"></div>
 

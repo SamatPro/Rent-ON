@@ -1,0 +1,25 @@
+= Описание API по RentOn
+
+== Методы
+
+|===
+|Метод | Назначение
+|`PUT`
+|Обновить сущность или ее состояние
+|===
+
+=== Заблокирование пользователя
+
+Можно скрыть опубликованный товар со статусом *HIDDEN*
+
+.request
+
+include::{snippets}/hide_product/http-request.adoc[]
+
+.response
+
+include::{snippets}/hide_product/http-response.adoc[]
+
+.response-fields
+
+include::{snippets}/hide_product/response-fields.adoc[]

@@ -4,6 +4,7 @@ package ru.itis.renton.models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Builder
@@ -15,7 +16,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table
-public class Order {
+public class Rent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,9 +24,10 @@ public class Order {
     private Product product;
     @ManyToOne
     private User tenant;
-    @OneToOne
-    private Deal deal;
 
-    @OneToMany(mappedBy = "order")
+    private Timestamp dateOfDeal;
+    private Timestamp endOfDeal;
+
+    @OneToMany(mappedBy = "rent")
     private List<Message> messages;
 }

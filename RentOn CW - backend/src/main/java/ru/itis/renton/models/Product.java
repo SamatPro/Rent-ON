@@ -46,7 +46,8 @@ public class Product {
     private State state;
 
     @OneToMany(mappedBy = "product")
-    private List<Order> orders;
+    @JsonIgnore
+    private List<Rent> rents;
 
     @ManyToMany(mappedBy = "favourites")
     @JsonIgnore
