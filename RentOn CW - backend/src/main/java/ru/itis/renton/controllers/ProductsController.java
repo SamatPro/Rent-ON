@@ -18,36 +18,42 @@ public class ProductsController {
     private ProductsService productsService;
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    private ResponseEntity<Long> add(@RequestBody ProductDto productDto,
+    public ResponseEntity<Long> add(@RequestBody ProductDto productDto,
                                      Authentication authentication){
         return ResponseEntity.ok(
                         productsService.add(productDto, authentication));
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    private ResponseEntity<List<ProductDto>> getRecommendations(Authentication authentication){
+    public ResponseEntity<List<ProductDto>> getRecommendations(Authentication authentication){
         return ResponseEntity.ok(productsService.getRecommendations(authentication));
     }
 
     @GetMapping("/{id}")
-    private ResponseEntity<ProductDto> get(@PathVariable Long id, Authentication authentication){
+    public ResponseEntity<ProductDto> get(@PathVariable Long id, Authentication authentication){
         return ResponseEntity.ok(ProductDto.from(productsService.get(id), authentication));
     }
 
     @PostMapping("/{id}/favourite")
-    private ResponseEntity<Boolean> addToFavourites(@PathVariable Long id,
+    public ResponseEntity<Boolean> addToFavourites(@PathVariable Long id,
                                            Authentication authentication){
         return ResponseEntity.ok(productsService.addToFavourite(id, authentication));
     }
 
     @GetMapping("/favourites")
-    private ResponseEntity<List<ProductDto>> getFavourites(Authentication authentication){
+    public ResponseEntity<List<ProductDto>> getFavourites(Authentication authentication){
         if (authentication != null){
             return ResponseEntity.ok(productsService.getFavourites(authentication));
         }
         else {
             return ResponseEntity.noContent().build();
         }
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<ProductDto>> getByQuery(@RequestParam("query") String query,
+                                                       Authentication authentication){
+        return ResponseEntity.ok(productsService.getProductsByQuery(query, authentication));
     }
 
 }

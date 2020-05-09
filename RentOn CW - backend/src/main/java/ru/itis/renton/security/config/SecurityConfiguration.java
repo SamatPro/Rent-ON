@@ -56,8 +56,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/products/add").permitAll()
                 .antMatchers("/product-image-upload").permitAll()
                 .antMatchers("/products/**").permitAll()
-                .antMatchers("/messages/**").authenticated()
-                .antMatchers("/rents/**").authenticated()
+                .antMatchers("/messages/**").permitAll()
+                .antMatchers("/rents/**").permitAll()
+                .antMatchers("/room/**").permitAll()
                 .antMatchers("/registration").anonymous();
         http.csrf().disable();
         http.sessionManagement().disable();

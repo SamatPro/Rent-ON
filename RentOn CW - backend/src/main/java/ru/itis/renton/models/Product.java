@@ -36,13 +36,8 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<Comment> comments;
 
-    @ElementCollection(targetClass = Category.class)
-    @CollectionTable(
-            name = "category",
-            joinColumns = @JoinColumn(name = "product_id")
-    )
-    @Column(name = "category_id")
-    private Set<Category> categories;
+    @Enumerated(value = EnumType.STRING)
+    private Category category;
 
     @Enumerated(value = EnumType.STRING)
     private State state;

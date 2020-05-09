@@ -6,9 +6,10 @@ import javax.persistence.Table;
 public enum Category {
     AUTO_PRODUCT,
     ACCESSORY,
-    APPLIANCE,
     TOY,
     REPAIRS,
+    ENTERTAINMENT,
     SPORT,
-    ELECTRICAL
+    EQUIPMENT,
+    OTHER
 }

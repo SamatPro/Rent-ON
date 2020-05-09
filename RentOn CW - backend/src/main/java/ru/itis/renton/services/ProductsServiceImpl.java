@@ -5,6 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.itis.renton.dto.ProductDto;
+import ru.itis.renton.models.Category;
 import ru.itis.renton.models.Product;
 import ru.itis.renton.models.User;
 import ru.itis.renton.repositories.PhotosRepository;
@@ -44,6 +45,7 @@ public class ProductsServiceImpl implements ProductsService {
                 .title(productDto.getTitle())
                 .description(productDto.getDescription())
                 .price(productDto.getPrice())
+                .category(Category.valueOf(productDto.getCategory()))
                 .owner(user)
                 .build();
 
@@ -60,20 +62,7 @@ public class ProductsServiceImpl implements ProductsService {
     public List<ProductDto> getRecommendations(Authentication authentication) {
         if (authentication == null){
             return productsRepository.findAll().stream()
-                    .map(product -> ProductDto.from(product, null)
-//                            ProductDto.builder()
-//                                    .id(product.getId())
-//                                    .title(product.getTitle())
-//                                    .description(product.getDescription())
-//                                    .price(product.getPrice())
-//                                    .image(
-//                                            product.getPhotos().isEmpty()
-//                                                    ? ""
-//                                                    : product.getPhotos().get(product.getPhotos().size()-1).getTitle()
-//                                    )
-//                                    .isFavourite(false)
-//                                    .build()
-                    )
+                    .map(product -> ProductDto.from(product, null))
                     .collect(Collectors.toList());
         }else {
             User user = (User) authentication.getPrincipal();
@@ -81,20 +70,7 @@ public class ProductsServiceImpl implements ProductsService {
                     .filter(product ->
                             !product.getOwner().getId().equals(user.getId())
                     )
-                    .map(product -> ProductDto.from(product, authentication)
-//                            ProductDto.builder()
-//                                    .id(product.getId())
-//                                    .title(product.getTitle())
-//                                    .description(product.getDescription())
-//                                    .price(product.getPrice())
-//                                    .image(
-//                                            product.getPhotos().isEmpty()
-//                                                    ? ""
-//                                                    : product.getPhotos().get(product.getPhotos().size() - 1).getTitle()
-//                                    )
-//                                    .isFavourite(product.getCandidates().contains(user))
-//                                    .build()
-                    )
+                    .map(product -> ProductDto.from(product, authentication))
                     .collect(Collectors.toList());
         }
     }
@@ -106,9 +82,7 @@ public class ProductsServiceImpl implements ProductsService {
 
         Product product = productsRepository.getProductById(productId);
         if (product.getCandidates().stream().noneMatch(p -> (p.getId().equals(user.getId())))){
-//            product.getCandidates().add(user);
             user.getFavourites().add(product);
-//            productsRepository.saveAndFlush(product);
             usersRepository.save(user);
             System.out.println("saved");
             return true;
@@ -121,10 +95,6 @@ public class ProductsServiceImpl implements ProductsService {
             query.setParameter("userId",user.getId());
             query.setParameter("productId",productId);
             query.executeUpdate();
-//            user.getFavourites().remove(product);
-//            product.getCandidates().remove(user);
-//            productsRepository.save(product);
-//            usersRepository.save(user);
 
             System.out.println("deleted");
             return false;
@@ -134,7 +104,23 @@ public class ProductsServiceImpl implements ProductsService {
     @Override
     public List<ProductDto> getFavourites(Authentication authentication) {
         User candidate = (User) authentication.getPrincipal();
-        List<ProductDto> favourites = candidate.getFavourites().stream().map(product -> ProductDto.from(product, authentication)).collect(Collectors.toList());
-        return favourites;
+        return candidate.getFavourites().stream().map(product -> ProductDto.from(product, authentication)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductDto> getProductsByQuery(String query, Authentication authentication) {
+        if (authentication == null){
+            return productsRepository.findDistinctByTitleIsLikeOrDescriptionIsLike(query, query).stream()
+                    .map(product -> ProductDto.from(product, null))
+                    .collect(Collectors.toList());
+        }else {
+            User user = (User) authentication.getPrincipal();
+            return productsRepository.findDistinctByTitleIsLikeOrDescriptionIsLike(query,query).stream()
+                    .filter(product ->
+                            !product.getOwner().getId().equals(user.getId())
+                    )
+                    .map(product -> ProductDto.from(product, authentication))
+                    .collect(Collectors.toList());
+        }
     }
 }
