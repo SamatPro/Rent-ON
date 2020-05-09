@@ -14,4 +14,5 @@ public interface UserService {
     void update(ProfileForm profileForm, Authentication authentication);
     ProfileDto getUser(Authentication authentication, Long id);
     ProfileDto getUser(Authentication authentication);
+
 }

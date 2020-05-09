@@ -19,6 +19,8 @@ class RentBar extends Component {
                 imgLink: API_IMG_URL + props.state.productDto.image,
                 category: 'Поход',
                 price: props.state.productDto.price,
+            },
+            favouriteState:{
                 isFavourite: props.state.productDto.isFavourite ? 'fa fa-heart' : 'fa fa-heart-o',
                 favouriteText: props.state.productDto.isFavourite ? 'УБРАТЬ' : 'В ИЗБРАННОЕ',
             },
@@ -43,9 +45,10 @@ class RentBar extends Component {
                 console.log("success")
                 console.log(r.data)
                 this.setState({
-                    isFavourite: r.data ? 'fa fa-heart' : 'fa fa-heart-o',
-                    favouriteText: r.data ? 'УБРАТЬ' : 'В ИЗБРАННОЕ',
-
+                    favouriteState:{
+                        isFavourite: r.data ? 'fa fa-heart' : 'fa fa-heart-o',
+                        favouriteText: r.data ? 'УБРАТЬ' : 'В ИЗБРАННОЕ',
+                    }
                 })
             })
             .catch(console.log("error"));
@@ -77,9 +80,9 @@ class RentBar extends Component {
                                 <i class="fa fa-star"></i>
                             </div>
                             <div class="product-btns">
-                                <button onClick={()=> this.addToFavourites(this.state.id)} class="add-to-wishlist">
-                                    <i class={this.state.product.isFavourite}></i>
-                                    <span class="tooltipp">{this.state.product.favouriteText}</span></button>
+                                <button onClick={()=> this.addToFavourites(this.state.product.id)} class="add-to-wishlist">
+                                    <i class={this.state.favouriteState.isFavourite}></i>
+                                    <span class="tooltipp">{this.state.favouriteState.favouriteText}</span></button>
                                 <button class="add-to-compare"><i class="fa fa-comments"></i><span
                                     class="tooltipp">Переписка</span></button>
                                 {/*<button id={"link" + this.state.id} class="quick-view" onClick={this.openProduct(this.state.id)}>*/}

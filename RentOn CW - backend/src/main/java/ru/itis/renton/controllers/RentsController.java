@@ -1,7 +1,9 @@
 package ru.itis.renton.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +36,11 @@ public class RentsController {
     @GetMapping("/rent/{id}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<RentDto> getRent(@PathVariable("id") Long rentId, Authentication authentication){
-        return ResponseEntity.ok(rentsService.getRent(rentId, authentication));
+        try {
+            return ResponseEntity.ok(rentsService.getRent(rentId, authentication));
+        }catch (AccessDeniedException e){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
     }
 
 

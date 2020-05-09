@@ -3,6 +3,9 @@ import SockJsClient from 'react-stomp'
 import {TalkBox} from "react-talk";
 import Fetch from "json-fetch";
 
+const API_URL = 'http://localhost:8080'
+
+
 class Dialog extends Component{
     constructor(props) {
         super(props);
@@ -13,7 +16,7 @@ class Dialog extends Component{
             text: '',
             clientConnected: null
         }
-        // this.handleChange = this.handleChange.bind(this)
+        this.handleChange = this.handleChange.bind(this)
     }
 
     onMessageReceive = (msg, topic) => {
@@ -21,42 +24,43 @@ class Dialog extends Component{
             messages: [...prevState.messages, msg]
         }));
     }
-    //
-    // componentWillMount() {
-    //     Fetch("/history/" + "room1", {
-    //         method: "GET"
-    //     }).then((response) => {
-    //         this.setState({messages: response.body});
-    //     });
-    // }
-    //
-    //
-    // handleChange(event) {
-    //     this.setState(
-    //         {
-    //             [event.target.name]: event.target.value
-    //         }
-    //     )
-    // }
-    //
-    // sendMessage = (msg, selfMsg) => {
-    //     try {
-    //         this.clientRef.sendMessage("/app/room/" + "room1", JSON.stringify(selfMsg));
-    //         return true;
-    //     } catch (e) {
-    //         return false;
-    //     }
-    // }
+
+    componentWillMount() {
+        Fetch(API_URL + "/history/" + this.props.state, {
+            method: "GET"
+        }).then((response) => {
+            this.setState({messages: response.body});
+        });
+    }
+
+
+    handleChange(event) {
+        this.setState(
+            {
+                [event.target.name]: event.target.value
+            }
+        )
+    }
+
+    sendMessage = (msg, selfMsg) => {
+        try {
+            this.clientRef.sendMessage("/room/" + this.props.state, JSON.stringify(selfMsg));
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
 
 
     render() {
-        console.log('render')
         return (
             <div>
                 <TalkBox topic="Сообщения" currentUserId={localStorage.getItem("AUTH")}
-                         currentUser={localStorage.getItem("authenticatedUser")} messages={this.state.messages}
+                          currentUser="Samat" messages={this.state.messages}
                          onSendMessage={this.sendMessage} connected={this.state.clientConnected}/>
-                <SockJsClient url={"http://localhost/api/stomp/messages"} topics={["/topic/room/room2"]}
+
+                {/*{this.state.messages.map((message)=><p>{message.message} {message.author}</p>)}*/}
+                <SockJsClient url={"http://localhost:8080/messages"} topics={["/room/"+this.props.state]}
                               onMessage={this.onMessageReceive} ref={(client) => {
                     this.clientRef = client
                 }}
@@ -68,23 +72,8 @@ class Dialog extends Component{
                               }}
                               debug={true}/>
             </div>
-        // messages={this.state.messages}
-        // onSendMessage={this.sendMessage} connected={this.state.clientConnected}
         )
     }
 }
 
 export default Dialog
-
-
-
-// ref={(client) => {
-//     this.clientRef = client
-// }}
-// onConnect={() => {
-//     this.setState({clientConnected: true});
-// }}
-// onDisconnect={() => {
-//     this.setState({clientConnected: false})
-// }}
-// debug={true}

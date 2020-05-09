@@ -1,6 +1,7 @@
 package ru.itis.renton.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import ru.itis.renton.dto.RentDto;
@@ -47,6 +48,12 @@ public class RentsServiceImpl implements RentsService {
 
     @Override
     public RentDto getRent(Long id, Authentication authentication) {
-        return RentDto.from(rentsRepository.findById(id).get(), authentication);
+        if(authentication != null){
+            User tenant = (User) authentication.getPrincipal();
+            if (tenant.getRents().stream().anyMatch(rent -> rent.getId().equals(id))){
+                return RentDto.from(rentsRepository.findById(id).get(), authentication);
+            }
+        }
+        throw new AccessDeniedException("Access denied to rent");
     }
 }

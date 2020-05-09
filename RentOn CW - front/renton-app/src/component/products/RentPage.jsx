@@ -131,7 +131,7 @@ class RentPage extends Component {
                             </div>
 
                             <div className="col-md-1 col-md-pull-1">
-                                <Dialog/>
+                                <Dialog state={this.state.id}/>
                             </div>
 
                         </div>
