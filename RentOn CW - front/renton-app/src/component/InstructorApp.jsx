@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import Login from './Login';
 import Registration from './Registration';
 import MainPage from "./MainPage";
-import ProductPage from "./products/ProductPage";
+import ProductPage from "./ProductPage";
 import Profile from "./profile/Profile";
 import NoMatch from "./NoMatch";
 import Header from "./Header";
@@ -14,6 +14,9 @@ import ProfileEdit from "./profile/ProfileEdit";
 import AuthenticatedRoute from "./AuthenticatedRoute";
 import ProductAdd from "./products/ProductAdd";
 import AnonymousRoute from "./AnonymousRoute";
+import Rents from "./Rents";
+import Favourites from "./Favourites";
+import RentPage from "./products/RentPage";
 
 class InstructorApp extends Component {
 
@@ -21,8 +24,6 @@ class InstructorApp extends Component {
     render() {
         return (
             <>
-                <Header/>
-                <div className={'container'}>
                     <Router>
                         <>
                             <Switch>
@@ -36,12 +37,14 @@ class InstructorApp extends Component {
                                 <AuthenticatedRoute exact path="/product/:id/edit" component={ProductAdd}/>
                                 <AuthenticatedRoute exact path="/user/edit" component={ProfileEdit}/>
                                 <AuthenticatedRoute exact path='/user/:id' component={Profile}/>
+                                <AuthenticatedRoute exact path='/rents' component={Rents}/>
+                                <AuthenticatedRoute exact path='/rents/:id' component={RentPage}/>
+                                <AuthenticatedRoute exact path='/favourites' component={Favourites}/>
 
                                 <Route component={NoMatch} />
                             </Switch>
                         </>
                     </Router>
-                </div>
                 <Footer/>
             </>
         )

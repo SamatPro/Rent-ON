@@ -130,4 +130,11 @@ public class ProductsServiceImpl implements ProductsService {
             return false;
         }
     }
+
+    @Override
+    public List<ProductDto> getFavourites(Authentication authentication) {
+        User candidate = (User) authentication.getPrincipal();
+        List<ProductDto> favourites = candidate.getFavourites().stream().map(product -> ProductDto.from(product, authentication)).collect(Collectors.toList());
+        return favourites;
+    }
 }

@@ -11,7 +11,8 @@
     "react-dom": "^16.13.1",
     "react-images-upload": "^1.2.8",
     "react-notify-toast": "^0.5.1",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "react-stomp": "^5.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -39,6 +40,7 @@
     "axios": "^0.19.2",
     "json-fetch": "^8.0.0",
     "react-router-dom": "^5.1.2",
+    "react-talk": "^1.0.0",
     "universal-cookie": "^4.0.3"
   }
 }

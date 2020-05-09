@@ -12,7 +12,7 @@ import ru.itis.renton.services.ProductsService;
 
 import java.util.List;
 
-@RepositoryRestController
+@RestController
 @RequestMapping("/products")
 public class ProductsController {
 
@@ -20,12 +20,10 @@ public class ProductsController {
     private ProductsService productsService;
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    private @ResponseBody
-    ResponseEntity<?> add(@RequestBody ProductDto productDto,
+    private ResponseEntity<Long> add(@RequestBody ProductDto productDto,
                                      Authentication authentication){
         return ResponseEntity.ok(
-                new EntityModel<>(
-                        productsService.add(productDto, authentication)));
+                        productsService.add(productDto, authentication));
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -42,6 +40,16 @@ public class ProductsController {
     private ResponseEntity<Boolean> addToFavourites(@PathVariable Long id,
                                            Authentication authentication){
         return ResponseEntity.ok(productsService.addToFavourite(id, authentication));
+    }
+
+    @GetMapping("/favourites")
+    private ResponseEntity<List<ProductDto>> getFavourites(Authentication authentication){
+        if (authentication != null){
+            return ResponseEntity.ok(productsService.getFavourites(authentication));
+        }
+        else {
+            return ResponseEntity.noContent().build();
+        }
     }
 
 }

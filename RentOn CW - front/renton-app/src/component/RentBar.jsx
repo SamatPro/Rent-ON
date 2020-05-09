@@ -1,29 +1,40 @@
 import React, {Component} from 'react'
-import AuthenticationService from "../../service/AuthenticationService";
+import AuthenticationService from "../service/AuthenticationService";
 
 const API_IMG_URL = 'http://localhost:8080/image/'
 
 
-class ProductBar extends Component {
+class RentBar extends Component {
 
     constructor(props) {
         super(props)
         console.log(this.props)
 
         this.state = {
-            id: props.state.id,
-            title: props.state.title,
-            description: props.state.description,
-            imgLink: API_IMG_URL + props.state.image,
-            category: 'Поход',
-            price: props.state.price,
-            isFavourite: props.state.isFavourite ? 'fa fa-heart' : 'fa fa-heart-o',
-            favouriteText: props.state.isFavourite ? 'УБРАТЬ' : 'В ИЗБРАННОЕ',
+            id: this.props.state.id,
+            product:{
+                id:this.props.state.productDto.id,
+                title: this.props.state.productDto.title,
+                description: props.state.productDto.description,
+                imgLink: API_IMG_URL + props.state.productDto.image,
+                category: 'Поход',
+                price: props.state.productDto.price,
+                isFavourite: props.state.productDto.isFavourite ? 'fa fa-heart' : 'fa fa-heart-o',
+                favouriteText: props.state.productDto.isFavourite ? 'УБРАТЬ' : 'В ИЗБРАННОЕ',
+            },
+            owner:{
+                id:props.state.productDto.user.id,
+                firstName:props.state.productDto.user.firstName,
+                lastName: props.state.productDto.user.lastName,
+                phone: props.state.productDto.user.phone
+            },
+            dateOfDeal: props.state.dateOfDeal,
+            endOfDeal: props.state.endOfDeal
+
+
 
         }
-        // this.openProduct = this.openProduct.bind(this)
         this.addToFavourites = this.addToFavourites.bind(this)
-        this.rent = this.rent.bind(this)
     }
 
     addToFavourites(id){
@@ -40,27 +51,23 @@ class ProductBar extends Component {
             .catch(console.log("error"));
     }
 
-    rent(id) {
-        AuthenticationService.rent(id)
-    }
-
     render() {
         return (
             <div>
                 <div className="col-md-4 col-xs-6">
                     <div class="product">
-                        <a href={"/product/" + this.state.id}>
+                        <a href={"/rents/" + this.state.id}>
                             <div class="product-img">
-                                <img src={this.state.imgLink} alt=""/>
+                                <img src={this.state.product.imgLink} alt=""/>
                             </div>
                         </a>
                         <div class="product-body">
-                            <p class="product-category">{this.state.category}</p>
+                            <p class="product-category">{this.state.product.category}</p>
                             <h3 class="product-name">
-                                <a href={"/product/" + this.state.id}>{this.state.title}</a>
+                                <a href={"/rents/" + this.state.id}>{this.state.product.title}</a>
                             </h3>
                             <h4 class="product-price">
-                                {this.state.price}
+                                {this.state.product.price}
                             </h4>
                             <div class="product-rating">
                                 <i class="fa fa-star"></i>
@@ -71,18 +78,13 @@ class ProductBar extends Component {
                             </div>
                             <div class="product-btns">
                                 <button onClick={()=> this.addToFavourites(this.state.id)} class="add-to-wishlist">
-                                    <i class={this.state.isFavourite}></i>
-                                    <span class="tooltipp">{this.state.favouriteText}</span></button>
-                                <button class="add-to-compare"><i class="fa fa-exchange"></i><span
-                                    class="tooltipp">срjhjdjhdd</span></button>
+                                    <i class={this.state.product.isFavourite}></i>
+                                    <span class="tooltipp">{this.state.product.favouriteText}</span></button>
+                                <button class="add-to-compare"><i class="fa fa-comments"></i><span
+                                    class="tooltipp">Переписка</span></button>
                                 {/*<button id={"link" + this.state.id} class="quick-view" onClick={this.openProduct(this.state.id)}>*/}
                                 {/*    <i class="fa fa-eye"></i><span class="tooltipp">посмотреть</span></button>*/}
                             </div>
-                        </div>
-                        <div class="add-to-cart">
-                            <button class="add-to-cart-btn" onClick={() =>this.rent(this.state.id)}><i class="fa fa-shopping-cart"></i>
-                                Взять на аренду
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -91,4 +93,4 @@ class ProductBar extends Component {
     }
 }
 
-export default ProductBar
+export default RentBar

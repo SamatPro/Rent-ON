@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import AuthenticationService from "../../service/AuthenticationService";
-import ImageUploader from 'react-images-upload';
 import Service from "../../service/Service";
 import axios from "axios";
+import Header from "../Header";
 
 const API_URL = 'http://localhost:8080'
 const API_IMG_URL = 'http://localhost:8080/image/'
@@ -121,6 +121,8 @@ class ProfileEdit extends Component {
         return (
 
             <div>
+                <Header/>
+                <div className={'container'}>
                 <div className="section">
                     <div className="container">
                         <div className="row">
@@ -195,6 +197,7 @@ class ProfileEdit extends Component {
                             </div>
                         </div>
                     </div>
+                </div>
                 </div>
             </div>
 

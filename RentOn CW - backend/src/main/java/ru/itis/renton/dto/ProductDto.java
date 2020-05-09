@@ -8,8 +8,6 @@ import org.springframework.security.core.Authentication;
 import ru.itis.renton.models.Product;
 import ru.itis.renton.models.User;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -37,9 +35,7 @@ public class ProductDto {
                 )
                 .isFavourite(false)
                 .build();
-//        if (!product.getPhotos().isEmpty()){
-//            productDto.setImage(product.getPhotos().get(product.getPhotos().size()-1).getTitle());
-//        }
+
         if (authentication!=null){
             User candidate = (User) authentication.getPrincipal();
             if (product.getCandidates().stream().anyMatch(u -> (u.getId().equals(candidate.getId())))){

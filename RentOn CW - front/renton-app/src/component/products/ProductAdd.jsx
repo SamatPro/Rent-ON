@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import Navbar from "../Navbar";
 import axios from "axios";
 import AuthenticationService from "../../service/AuthenticationService";
+import Header from "../Header";
 
 const API_URL = 'http://localhost:8080'
 const API_IMG_URL = 'http://localhost:8080/image/'
@@ -74,7 +75,10 @@ class ProductAdd extends Component {
     render() {
         return (
             <div>
+
+                <Header/>
                 <Navbar/>
+                <div className={'container'}>
 
 
                 <div className="section">
@@ -160,6 +164,7 @@ class ProductAdd extends Component {
 
                         </div>
                     </div>
+                </div>
                 </div>
             </div>
         )

@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import AuthenticationService from '../service/AuthenticationService';
 import Navbar from "./Navbar";
 import {Redirect} from "react-router-dom";
+import Header from "./Header";
 
 class Login extends Component {
 
@@ -54,7 +55,9 @@ class Login extends Component {
         } else {
             return (
                 <div>
+                    <Header/>
                     <Navbar/>
+                    <div className={'container'}>
 
                     <div className="section">
                         <div className="container">
@@ -85,6 +88,7 @@ class Login extends Component {
                             </div>
                         </div>
                     </div>
+                </div>
                 </div>
             )
         }

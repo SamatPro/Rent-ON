@@ -4,32 +4,31 @@ import ProductBar from "./products/ProductBar";
 import AuthenticationService from "../service/AuthenticationService";
 import axios from "axios";
 import Header from "./Header";
+import RentBar from "./RentBar";
 
-class MainPage extends Component {
+class Rents extends Component {
 
     constructor(props) {
         super(props)
 
         this.state = {
-            products: []
+            rents: []
 
         }
-        this.getProducts = this.getProducts.bind(this)
-        this.getProducts();
-        // this.addToFavourites = this.addToFavourites.bind(this);
+        this.getRents = this.getRents.bind(this)
+        this.getRents();
     }
 
-    getProducts(){
+    getRents(){
         AuthenticationService.setupAxiosInterceptors();
-
-        axios.get("http://localhost:8080/products")
-            .then(res => {
+        AuthenticationService.getRents()
+            .then(res=>{
                 this.setState({
-                    products: res.data
+                    rents: res.data
                 })
-            }).catch((error) => {
-                console.log("error")
-        });
+            })
+
+
     }
     // addToFavourites(id){
     //     console.log(id)
@@ -49,7 +48,7 @@ class MainPage extends Component {
                     <div class="container">
                         <div id="store" class="col-md-12">
                             <div class="row">
-                                {this.state.products.map((product)=> <ProductBar state={product}/>)}
+                                {this.state.rents.map((rent)=> <RentBar state={rent}/>)}
 
                                 <div className="clearfix visible-sm visible-xs"></div>
 
@@ -71,6 +70,6 @@ class MainPage extends Component {
             </div>
     )
     }
-    }
+}
 
-    export default MainPage
+export default Rents

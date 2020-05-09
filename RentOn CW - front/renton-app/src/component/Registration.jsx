@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import AuthenticationService from '../service/AuthenticationService';
+import Header from "./Header";
+import Navbar from "./Navbar";
 
 class Registration extends Component {
 
@@ -42,6 +44,7 @@ class Registration extends Component {
                     console.log(response.data);
                     this.props.history.push(`/successful`)
                 }).catch(() => {
+                    console.log("error")
                 }
             )
         }else {
@@ -56,6 +59,9 @@ class Registration extends Component {
     render() {
         return (
             <div>
+                <Header/>
+                <Navbar/>
+                <div className={'container'}>
                 <div className="section">
                     <div className="container">
                         <div className="row">
@@ -105,6 +111,7 @@ class Registration extends Component {
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
 
 

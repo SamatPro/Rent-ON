@@ -5,6 +5,8 @@ import AuthenticationService from "../../service/AuthenticationService";
 import axios from "axios";
 import Service from "../../service/Service";
 import ProfileBtn from "./ProfileBtn";
+import Header from "../Header";
+import Navbar from "../Navbar";
 
 const API_URL = 'http://localhost:8080'
 const API_IMG_URL = 'http://localhost:8080/image/'
@@ -26,7 +28,6 @@ class Profile extends Component {
             image: ''
         }
 
-        this.updateProfile = this.updateProfile.bind(this)
         this.getUserData(id);
     }
 
@@ -59,14 +60,13 @@ class Profile extends Component {
             )
     }
 
-    updateProfile(){
-        this.props.history.push(`/user/edit`)
-    }
 
     render() {
         return (
 
             <div>
+                <Header/>
+                <div className={'container'}>
                 <div className="section">
                     <div className="container">
                         <div className="row">
@@ -87,11 +87,8 @@ class Profile extends Component {
                                     <h4 className="profile-name">{this.state.phone}</h4>
                                     <h4 className="profile-name">{this.state.address}</h4>
 
-                                    {/*<ProfileBtn/>*/}
-                                    {/*<ProfileBtn/>*/}
-                                    <button className="primary-btn order-submit"
-                                        onClick={this.updateProfile}>Изменить данные и пароль
-                                    </button>
+                                    <ProfileBtn state={this.state.id}/>
+
                                 </div>
                             </div>
 
@@ -165,6 +162,7 @@ class Profile extends Component {
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
 
     )

@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Builder
 @Getter
 @Setter
-@ToString
+@ToString(exclude = {"author", "product"})
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor

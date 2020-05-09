@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import {notify} from 'react-notify-toast'
 import Redirect from "react-router-dom/es/Redirect";
+import Header from "./Header";
+import Navbar from "./Navbar";
 
 const API_URL = 'http://localhost:8080'
 
@@ -22,11 +24,17 @@ class Confirm extends Component {
     }
 
     render = () =>
-        <div className='confirm'>
-            {this.state.confirming
-                ? <p>Подтверждение email...</p>
-                : <Redirect to="/login"/>
-            }
+        <div>
+            <Header/>
+            <Navbar/>
+            <div className={'container'}>
+                <div className='confirm'>
+                    {this.state.confirming
+                        ? <p>Подтверждение email...</p>
+                        : <Redirect to="/login"/>
+                    }
+                </div>
+            </div>
         </div>
 }
 export default Confirm

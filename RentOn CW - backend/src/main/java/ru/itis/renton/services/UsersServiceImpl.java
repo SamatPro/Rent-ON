@@ -67,7 +67,8 @@ public class UsersServiceImpl implements UserService {
     public void register(UserDto userDto) {
         String confirmString = UUID.randomUUID().toString();
 
-        User userToSave = User.builder()
+        if (!usersRepository.existsByLoginIgnoreCase(userDto.getLogin())) {
+            User userToSave = User.builder()
                 .login(userDto.getLogin())
                 .passwordHash(encoder.encode(userDto.getPassword()))
                 .lastName(userDto.getLastName())
@@ -80,8 +81,7 @@ public class UsersServiceImpl implements UserService {
                 .confirmString(confirmString)
                 .build();
 
-        if (!usersRepository.existsByLoginIgnoreCase(userToSave.getLogin())) {
-            User user = usersRepository.saveAndFlush(userToSave);
+            User user = usersRepository.save(userToSave);
             String text = "<a href='http://localhost:3000/confirm/" + user.getConfirmString() + "'>" +"Пройдите по ссылке" + "</a>";
             emailService.sendMail("Подтвреждение регистрации", text, user.getLogin());
             return;

@@ -1,6 +1,7 @@
 package ru.itis.renton.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -8,7 +9,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Builder
-@ToString
+@ToString(exclude = {"tenant", "messages"})
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,8 +22,10 @@ public class Rent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
+    @JsonIgnore
     private Product product;
     @ManyToOne
+    @JsonIgnore
     private User tenant;
 
     private Timestamp dateOfDeal;

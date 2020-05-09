@@ -87,6 +87,28 @@ class AuthenticationService {
             )
     }
 
+    rent(id){
+        this.setupAxiosInterceptors();
+        axios.post(`${API_URL}/products/${id}/rent`)
+            .then(res=>{
+                return res.data
+            })
+    }
+
+    getRents(){
+        this.setupAxiosInterceptors();
+        return axios.get(`${API_URL}/rents`)
+    }
+
+    getRent(id){
+        this.setupAxiosInterceptors();
+        return axios.get(`${API_URL}/rent/${id}`)
+    }
+
+    getFavourites(){
+        this.setupAxiosInterceptors();
+        return axios.get(`${API_URL}/products/favourites`)
+    }
     setupAxiosInterceptors() {
         axios.defaults.headers.common['AUTH'] = localStorage.getItem('AUTH');
     }

@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
-import Navbar from "../Navbar";
-import Service from "../../service/Service";
-import Header from "../Header";
+import Navbar from "./Navbar";
+import Service from "../service/Service";
+import Header from "./Header";
+import AuthenticationService from "../service/AuthenticationService";
 
 const API_IMG_URL = 'http://localhost:8080/image/'
 
@@ -28,6 +29,20 @@ class ProductPage extends Component {
         }
         this.getProduct = this.getProduct.bind(this)
         this.getProduct(this.state.id)
+    }
+
+    addToFavourites(id){
+        AuthenticationService.addToFavourites(id)
+            .then(r => {
+                console.log("success")
+                console.log(r.data)
+                this.setState({
+                    isFavourite: r.data ? 'fa fa-heart' : 'fa fa-heart-o',
+                    favouriteText: r.data ? 'УБРАТЬ' : 'В ИЗБРАННОЕ',
+
+                })
+            })
+            .catch(console.log("error"));
     }
 
     getProduct(id){
@@ -64,7 +79,9 @@ class ProductPage extends Component {
     render() {
         return (
             <div>
+                <Header/>
                 <Navbar/>
+                <div className={'container'}>
 
                 <div className="section">
                     <div className="container">
@@ -118,7 +135,7 @@ class ProductPage extends Component {
                                     <p>{this.state.description}</p>
 
                                     <ul className="product-btns">
-                                        <li><a href={"#"}><i className="fa fa-heart-o"></i> add to wishlist</a></li>
+                                        <li><a href={"/dialog?"}><i className="fa fa-heart-o"></i> add to wishlist</a></li>
                                         <li><a href={"/user/" + this.state.owner.id}><i className="fa fa-user-circle"></i>{this.state.owner.firstName} {this.state.owner.lastName}</a></li>
                                     </ul>
                                     <ul className="product-links">
@@ -500,6 +517,7 @@ class ProductPage extends Component {
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
         )
     }

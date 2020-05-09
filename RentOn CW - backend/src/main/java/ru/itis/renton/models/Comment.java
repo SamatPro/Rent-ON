@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 
 
 @Builder
-@ToString
+@ToString(exclude = {"author", "product"})
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor

@@ -2,13 +2,15 @@ package ru.itis.renton.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
 
 @Builder
-@ToString
+@ToString(exclude = {"candidates", "owner", "rents"})
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
@@ -46,7 +48,6 @@ public class Product {
     private State state;
 
     @OneToMany(mappedBy = "product")
-    @JsonIgnore
     private List<Rent> rents;
 
     @ManyToMany(mappedBy = "favourites")

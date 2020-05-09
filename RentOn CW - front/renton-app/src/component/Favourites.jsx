@@ -2,10 +2,9 @@ import React, {Component} from 'react'
 import Navbar from "./Navbar";
 import ProductBar from "./products/ProductBar";
 import AuthenticationService from "../service/AuthenticationService";
-import axios from "axios";
 import Header from "./Header";
 
-class MainPage extends Component {
+class Favourites extends Component {
 
     constructor(props) {
         super(props)
@@ -16,20 +15,18 @@ class MainPage extends Component {
         }
         this.getProducts = this.getProducts.bind(this)
         this.getProducts();
-        // this.addToFavourites = this.addToFavourites.bind(this);
     }
 
     getProducts(){
         AuthenticationService.setupAxiosInterceptors();
-
-        axios.get("http://localhost:8080/products")
-            .then(res => {
+        AuthenticationService.getFavourites()
+            .then(res=>{
+                console.log(res.data)
                 this.setState({
-                    products: res.data
+                    products:res.data
                 })
-            }).catch((error) => {
-                console.log("error")
-        });
+            })
+            .catch(console.log("error"))
     }
     // addToFavourites(id){
     //     console.log(id)
@@ -69,8 +66,8 @@ class MainPage extends Component {
                 </div>
             </div>
             </div>
-    )
+        )
     }
-    }
+}
 
-    export default MainPage
+export default Favourites

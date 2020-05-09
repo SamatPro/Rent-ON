@@ -1,10 +1,15 @@
 import React, {Component} from 'react'
+import Header from "./Header";
+import Navbar from "./Navbar";
 
 class SuccessfulRegistration extends Component {
 
     render() {
         return (
             <div>
+                <Header/>
+                <Navbar/>
+                <div className={'container'}>
                 <div className="section">
                     <div className="container">
                         <div className="row">
@@ -25,6 +30,7 @@ class SuccessfulRegistration extends Component {
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
 
 
