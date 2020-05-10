@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import ru.itis.renton.dto.RentDto;
 import ru.itis.renton.models.Product;
 import ru.itis.renton.models.Rent;
@@ -11,6 +12,7 @@ import ru.itis.renton.models.User;
 import ru.itis.renton.repositories.ProductsRepository;
 import ru.itis.renton.repositories.RentsRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,6 +54,30 @@ public class RentsServiceImpl implements RentsService {
             User tenant = (User) authentication.getPrincipal();
             if (tenant.getRents().stream().anyMatch(rent -> rent.getId().equals(id))){
                 return RentDto.from(rentsRepository.findById(id).get(), authentication);
+            }
+        }
+        throw new AccessDeniedException("Access denied to rent");
+    }
+
+    @Override
+    public List<RentDto> getFeedbacks(Authentication authentication) {
+
+        User landlord = (User) authentication.getPrincipal();
+        List<Rent> rents = new ArrayList<>();
+        landlord.getPlacements().stream()
+                .forEach(product -> rents.addAll(product.getRents()));
+
+        return rents.stream().map(rent -> RentDto.from(rent, authentication)).collect(Collectors.toList());
+
+    }
+
+    @Override
+    public RentDto getFeedback(Long id, Authentication authentication) {
+        if(authentication != null){
+            User landlord = (User) authentication.getPrincipal();
+            Rent rent = rentsRepository.findById(id).get();
+            if (rent.getProduct().getOwner().getId().equals(landlord.getId())){
+                return RentDto.from(rent, authentication);
             }
         }
         throw new AccessDeniedException("Access denied to rent");

@@ -43,11 +43,25 @@ public class RentsController {
         }
     }
 
+    @GetMapping("/feedbacks")
+    public ResponseEntity<List<RentDto>> getFeedbacks(Authentication authentication){
+        if (authentication != null){
+            List<RentDto> rentDtos= rentsService.getFeedbacks(authentication);
+            if (!rentDtos.isEmpty()){
+                return ResponseEntity.ok(rentDtos);
+            }
+        }
+        return ResponseEntity.notFound().build();
+    }
 
-
-    @PutMapping
-    public ResponseEntity update(){
-        return ResponseEntity.ok().build();
+    @GetMapping("/feedback/{id}")
+    public ResponseEntity<RentDto> getFeedback(@PathVariable("id") Long rentId,
+                                               Authentication authentication){
+        try {
+            return ResponseEntity.ok(rentsService.getFeedback(rentId, authentication));
+        }catch (AccessDeniedException e){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
     }
 
 }

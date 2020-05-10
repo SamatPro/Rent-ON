@@ -15,13 +15,12 @@ class ProductBar extends Component {
             title: props.state.title,
             description: props.state.description,
             imgLink: API_IMG_URL + props.state.image,
-            category: 'Поход',
+            category: props.state.category==null ? 'other' : props.state.category,
             price: props.state.price,
             isFavourite: props.state.isFavourite ? 'fa fa-heart' : 'fa fa-heart-o',
             favouriteText: props.state.isFavourite ? 'УБРАТЬ' : 'В ИЗБРАННОЕ',
 
         }
-        // this.openProduct = this.openProduct.bind(this)
         this.addToFavourites = this.addToFavourites.bind(this)
         this.rent = this.rent.bind(this)
     }

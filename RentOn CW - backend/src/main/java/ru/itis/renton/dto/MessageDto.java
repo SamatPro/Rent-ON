@@ -23,6 +23,7 @@ public class MessageDto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String author;
+    private String authorId;
     private String message;
     private Timestamp createdAt;
 

@@ -15,7 +15,11 @@ class MainPage extends Component {
 
         }
         this.getProducts = this.getProducts.bind(this)
-        this.getProducts();
+        if (props.state==null){
+            this.getProducts();
+        }else{
+            this.getByQuery(props.state);
+        }
         // this.addToFavourites = this.addToFavourites.bind(this);
     }
 
@@ -31,12 +35,19 @@ class MainPage extends Component {
                 console.log("error")
         });
     }
-    // addToFavourites(id){
-    //     console.log(id)
-    //     AuthenticationService.addToFavourites(id)
-    //         .then(r => console.log("success"))
-    //         .catch(console.log("error"));
-    // }
+
+    getByQuery(text){
+        AuthenticationService.setupAxiosInterceptors();
+
+        axios.get("http://localhost:8080/products/search?query="+text)
+            .then(res => {
+                this.setState({
+                    products: res.data
+                })
+            }).catch((error) => {
+            console.log("error")
+        });
+    }
 
     render() {
         return (

@@ -16,15 +16,15 @@ public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         // включил in memory MessageBroker
-        config.enableSimpleBroker("/");
+        config.enableSimpleBroker("/chat");
         // указал, куда могут быть направлены сообщения
-        config.setApplicationDestinationPrefixes("/room");
+        config.setApplicationDestinationPrefixes("/app");
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {
         // обозначили точку подключения
-        stompEndpointRegistry.addEndpoint("/messages").setAllowedOrigins("http://localhost:3000").withSockJS();
+        stompEndpointRegistry.addEndpoint("/chat-messaging").setAllowedOrigins("http://localhost:3000").withSockJS();
     }
 
 }

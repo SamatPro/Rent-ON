@@ -17,6 +17,7 @@ import java.sql.Timestamp;
 public class RentDto {
     private Long id;
     private UserDto ownerDto;
+    private UserDto tenant;
     private ProductDto productDto;
     private Timestamp dateOfDeal;
     private Timestamp endOfDeal;
@@ -27,6 +28,7 @@ public class RentDto {
                 .dateOfDeal(rent.getDateOfDeal())
                 .endOfDeal(rent.getEndOfDeal())
                 .productDto(ProductDto.from(rent.getProduct(), authentication))
+                .tenant(UserDto.from(rent.getTenant()))
                 .ownerDto(UserDto.from(rent.getProduct().getOwner()))
                 .build();
     }

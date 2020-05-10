@@ -17,19 +17,19 @@ import java.util.List;
 
 @RestController
 public class MessagesController {
+
     @Autowired
     private ChatService chatService;
     @Autowired
     private SimpMessagingTemplate template;
 
-    @MessageMapping("/room/{rentId}")
-    @SendTo("/room/{rentId}")
+    @MessageMapping("/message/{rentId}")
+    @SendTo("/chat/messages/{rentId}")
     public MessageDto getMessage(@DestinationVariable String rentId,
                                  @Payload MessageDto message) {
-//        System.out.println(message.getMessage());
         message.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         message.setTimestamp(Long.toString(System.currentTimeMillis()));
-        message.setRentId(Long.valueOf(rentId.substring(5)));
+        message.setRentId(Long.valueOf(rentId));
         chatService.save(message);
         return message;
     }

@@ -39,11 +39,12 @@ class AuthenticationService {
         })
     }
 
-    addProduct(title, price, description){
+    addProduct(title, price, description, category){
         return axios.post(`${API_URL}/products/add`, {
             title,
             price,
             description,
+            category
         })
     }
 
@@ -93,6 +94,16 @@ class AuthenticationService {
             .then(res=>{
                 return res.data
             })
+    }
+
+    getFeedbacks(){
+        this.setupAxiosInterceptors();
+        return axios.get(`${API_URL}/feedbacks`)
+    }
+
+    getFeedback(id){
+        this.setupAxiosInterceptors();
+        return axios.get(`${API_URL}/feedback/${id}`)
     }
 
     getRents(){

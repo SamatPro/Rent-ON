@@ -49,7 +49,7 @@ public class UsersServiceImpl implements UserService {
         Optional<User> candidate = usersRepository.getByLoginIgnoreCase(loginDto.getLogin());
         if (candidate.isPresent()) {
             User user = candidate.get();
-            if (encoder.matches(loginDto.getPassword(), user.getPasswordHash())) {
+            if (encoder.matches(loginDto.getPassword(), user.getPasswordHash()) && user.getIsUserNonLocked()) {
                 Authentication authentication = authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(
                                 loginDto.getLogin(),

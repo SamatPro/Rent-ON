@@ -31,7 +31,7 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public List<MessageDto> getHistory(Long rentId) {
         return repository.findAllByRentOrderByCreatedAtAsc(rentId).stream().map(message -> MessageDto.builder()
-                .author(message.getUser().getFirstName())
+                .author(message.getUser().getFirstName() + " " + message.getUser().getLastName())
                 .message(message.getMessage())
                 .timestamp(message.getTimestamp())
                 .createdAt(message.getCreatedAt())
@@ -41,8 +41,8 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public Optional<Message> save(MessageDto messageDto) {
-        User user = userRepository.findUserById(jwtTokenProvider.getUserIdFromJWT(messageDto.getAuthor())).get();
-        Rent rent = rentsRepository.findById(messageDto.getId()).get();
+        User user = userRepository.findUserById(jwtTokenProvider.getUserIdFromJWT(messageDto.getAuthorId())).get();
+        Rent rent = rentsRepository.findById(messageDto.getRentId()).get();
         Message message = repository.save(Message.builder()
                 .message(messageDto.getMessage())
                 .user(user)

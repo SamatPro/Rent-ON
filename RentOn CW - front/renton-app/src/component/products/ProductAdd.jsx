@@ -63,7 +63,7 @@ class ProductAdd extends Component {
 
     addProduct() {
         AuthenticationService.setupAxiosInterceptors()
-        AuthenticationService.addProduct(this.state.title, this.state.price, this.state.description)
+        AuthenticationService.addProduct(this.state.title, this.state.price, this.state.description, this.state.category)
             .then((res)=>{
                 const id = res.data;
                 this.addImage(id);
@@ -127,7 +127,7 @@ class ProductAdd extends Component {
                                     <div>
                                         <h3 className="product-price">
                                             <div className="form-group">
-                                                <input className="input" type="text" name="price" placeholder="Цена"
+                                                <input className="input" type="text" name="price" placeholder="Цена в рублях"
                                                        value={this.state.price} onChange={this.handleChange} required/>
                                             </div>
                                         </h3>
@@ -141,15 +141,39 @@ class ProductAdd extends Component {
                                     </p>
 
                                     <ul className="product-links">
-                                        <li>Category:</li>
-                                        {/*<li><input className="input" type="checkbox" name="title" placeholder="category"*/}
-                                        {/*           value={this.state.category} onChange={this.handleChange} /></li>*/}
-                                        {/*<li><input className="input" type="checkbox" name="title" placeholder="category"*/}
-                                        {/*           value={this.state.category} onChange={this.handleChange} /></li>*/}
-                                        {/*<li><input className="input" type="checkbox" name="title" placeholder="category"*/}
-                                        {/*           value={this.state.category} onChange={this.handleChange} /></li>*/}
-                                        {/*<li><input className="input" type="checkbox" name="title" placeholder="category"*/}
-                                        {/*           value={this.state.category} onChange={this.handleChange} /></li>*/}
+                                        <li>Выберите категорию:</li>
+                                        <li><input className="product-category" type="radio" name="category" id="category1"
+                                                   value="AUTO_PRODUCT" onChange={this.handleChange} />
+                                               <label htmlFor="category1">Автомобили</label>
+                                        </li>
+                                        <li><input className="product-category" type="radio" name="category" id="category2"
+                                                   value="ACCESSORY" onChange={this.handleChange} />
+                                            <label htmlFor="category2">Аксессуры</label>
+                                        </li>
+                                        <li><input className="product-category" type="radio" name="category" id="category3"
+                                                   value="TOY" onChange={this.handleChange} />
+                                            <label htmlFor="category3">Игрушки</label>
+                                        </li>
+                                        <li><input className="product-category" type="radio" name="category" id="category4"
+                                                   value="REPAIRS" onChange={this.handleChange} />
+                                            <label htmlFor="category4">Ремонт</label>
+                                        </li>
+                                        <li><input className="product-category" type="radio" name="category" id="category5"
+                                                   value="ENTERTAINMENT" onChange={this.handleChange} />
+                                            <label htmlFor="category5">Развлечения</label>
+                                        </li>
+                                        <li><input className="product-category" type="radio" name="category" id="category6"
+                                                   value="SPORT" onChange={this.handleChange} />
+                                                   <label htmlFor="category6">Спорт</label>
+                                        </li>
+                                        <li><input className="product-category" type="radio" name="category" id="category7"
+                                                   value="EQUIPMENT" onChange={this.handleChange} />
+                                            <label htmlFor="category7">Техника</label>
+                                        </li>
+                                        <li><input className="product-category" type="radio" name="category" id="category8"
+                                                   value="OTHER" onChange={this.handleChange} />
+                                            <label htmlFor="category8">Другое</label>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
