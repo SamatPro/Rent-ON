@@ -19,6 +19,7 @@ public class RentDto {
     private UserDto ownerDto;
     private UserDto tenant;
     private ProductDto productDto;
+    private Boolean isAccepted;
     private Timestamp dateOfDeal;
     private Timestamp endOfDeal;
 
@@ -30,6 +31,7 @@ public class RentDto {
                 .productDto(ProductDto.from(rent.getProduct(), authentication))
                 .tenant(UserDto.from(rent.getTenant()))
                 .ownerDto(UserDto.from(rent.getProduct().getOwner()))
+                .isAccepted(rent.getIsAccepted())
                 .build();
     }
 }

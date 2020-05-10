@@ -28,9 +28,14 @@ public class Rent {
     @JsonIgnore
     private User tenant;
 
+    private Boolean isAccepted;
+
     private Timestamp dateOfDeal;
     private Timestamp endOfDeal;
 
     @OneToMany(mappedBy = "rent")
     private List<Message> messages;
+
+    @OneToOne
+    private Payment payment;
 }

@@ -19,6 +19,11 @@ class ProductBar extends Component {
             price: props.state.price,
             isFavourite: props.state.isFavourite ? 'fa fa-heart' : 'fa fa-heart-o',
             favouriteText: props.state.isFavourite ? 'УБРАТЬ' : 'В ИЗБРАННОЕ',
+            user:{
+                id: props.state.user.id,
+                firstName: props.state.user.firstName,
+                lastName: props.state.user.lastName
+            }
 
         }
         this.addToFavourites = this.addToFavourites.bind(this)
@@ -72,10 +77,8 @@ class ProductBar extends Component {
                                 <button onClick={()=> this.addToFavourites(this.state.id)} class="add-to-wishlist">
                                     <i class={this.state.isFavourite}></i>
                                     <span class="tooltipp">{this.state.favouriteText}</span></button>
-                                <button class="add-to-compare"><i class="fa fa-exchange"></i><span
-                                    class="tooltipp">срjhjdjhdd</span></button>
-                                {/*<button id={"link" + this.state.id} class="quick-view" onClick={this.openProduct(this.state.id)}>*/}
-                                {/*    <i class="fa fa-eye"></i><span class="tooltipp">посмотреть</span></button>*/}
+                                <button onClick={()=> window.location.href="/user/"+this.state.user.id } class="add-to-compare"><i class="fa fa-user-circle"></i><span
+                                    class="tooltipp">{this.state.user.firstName} {this.state.user.lastName}</span></button>
                             </div>
                         </div>
                         <div class="add-to-cart">

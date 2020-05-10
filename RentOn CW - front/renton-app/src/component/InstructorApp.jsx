@@ -1,22 +1,23 @@
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
-import Login from './Login';
-import Registration from './Registration';
+import Login from './users/Login';
+import Registration from './users/Registration';
 import MainPage from "./MainPage";
-import ProductPage from "./ProductPage";
-import Profile from "./profile/Profile";
+import ProductPage from "./products/ProductPage";
+import Profile from "./users/Profile";
 import NoMatch from "./NoMatch";
-import Header from "./Header";
 import Footer from "./Footer";
-import SuccessfulRegistration from "./SuccessfulRegistration";
-import Confirm from "./Confirm";
-import ProfileEdit from "./profile/ProfileEdit";
+import SuccessfulRegistration from "./users/SuccessfulRegistration";
+import Confirm from "./users/Confirm";
+import ProfileEdit from "./users/ProfileEdit";
 import AuthenticatedRoute from "./AuthenticatedRoute";
 import ProductAdd from "./products/ProductAdd";
 import AnonymousRoute from "./AnonymousRoute";
-import Rents from "./Rents";
-import Favourites from "./Favourites";
-import RentPage from "./products/RentPage";
+import Rents from "./rents/Rents";
+import Favourites from "./products/Favourites";
+import RentPage from "./rents/RentPage";
+import Feedbacks from "./rents/Feedbacks";
+import FeedbackPage from "./rents/FeedbackPage";
 
 class InstructorApp extends Component {
 
@@ -40,6 +41,8 @@ class InstructorApp extends Component {
                                 <AuthenticatedRoute exact path='/rents' component={Rents}/>
                                 <AuthenticatedRoute exact path='/rents/:id' component={RentPage}/>
                                 <AuthenticatedRoute exact path='/favourites' component={Favourites}/>
+                                <AuthenticatedRoute exact path='/feedback/:id' component={FeedbackPage}/>
+                                <AuthenticatedRoute exact path='/feedbacks' component={Feedbacks}/>
 
                                 <Route component={NoMatch} />
                             </Switch>

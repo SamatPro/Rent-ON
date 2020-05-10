@@ -10,4 +10,5 @@ import java.util.List;
 public interface ProductsRepository extends JpaRepository<Product, Long> {
     Product getProductById(Long id);
     List<Product> findDistinctByTitleIsLikeOrDescriptionIsLike(String title, String description);
+    List<Product> findProductsByOwnerId(Long id);
 }

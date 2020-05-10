@@ -16,6 +16,7 @@ import ru.itis.renton.security.providers.JwtTokenProvider;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -122,5 +123,11 @@ public class ProductsServiceImpl implements ProductsService {
                     .map(product -> ProductDto.from(product, authentication))
                     .collect(Collectors.toList());
         }
+    }
+
+    @Override
+    public List<ProductDto> getProductsByUser(Long id, Authentication authentication) {
+        return productsRepository.findProductsByOwnerId(id).stream()
+                .map(product -> ProductDto.from(product, authentication)).collect(Collectors.toList());
     }
 }

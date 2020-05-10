@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import AuthenticationService from "../service/AuthenticationService";
+import AuthenticationService from "../../service/AuthenticationService";
 import axios from "axios";
 
 const API_URL = 'http://localhost:8080'

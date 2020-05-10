@@ -82,4 +82,17 @@ public class RentsServiceImpl implements RentsService {
         }
         throw new AccessDeniedException("Access denied to rent");
     }
+
+    @Override
+    public RentDto accept(Long id, Boolean status, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        if (user.getPlacements().stream()
+                .anyMatch(product -> product.getRents().stream()
+                        .anyMatch(rent -> rent.getId().equals(id)))){
+            Rent rent = rentsRepository.findById(id).get();
+            rent.setIsAccepted(status);
+            return RentDto.from(rentsRepository.save(rent), authentication);
+        }
+        throw new AccessDeniedException("Access denied to feedback");
+    }
 }

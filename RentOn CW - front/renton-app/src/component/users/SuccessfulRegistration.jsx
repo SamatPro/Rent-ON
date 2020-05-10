@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import Header from "./Header";
-import Navbar from "./Navbar";
+import Header from "../Header";
+import Navbar from "../Navbar";
 
 class SuccessfulRegistration extends Component {
 

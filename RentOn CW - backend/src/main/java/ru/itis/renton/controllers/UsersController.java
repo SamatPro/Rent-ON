@@ -7,15 +7,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import ru.itis.renton.dto.ProductDto;
 import ru.itis.renton.dto.ProfileDto;
 import ru.itis.renton.forms.ProfileForm;
+import ru.itis.renton.services.ProductsService;
 import ru.itis.renton.services.UserService;
+
+import java.util.List;
 
 @RestController
 public class UsersController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ProductsService productsService;
 
     @GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("isAuthenticated()")
@@ -46,6 +53,12 @@ public class UsersController {
         }catch (IllegalArgumentException e){
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    @GetMapping("/user/{id}/products")
+    public ResponseEntity<List<ProductDto>> getProductsByUser(@PathVariable("id") Long userId,
+                                                              Authentication authentication){
+        return ResponseEntity.ok(productsService.getProductsByUser(userId, authentication));
     }
 
 }

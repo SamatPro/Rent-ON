@@ -44,7 +44,8 @@ class Dialog extends Component{
 
     sendMessage = (msg, selfMsg) => {
         try {
-            this.clientRef.sendMessage("/room/" + this.props.state, JSON.stringify(selfMsg));
+            console.log(this.props.state + "room")
+            this.clientRef.sendMessage("/app/message/" + this.props.state, JSON.stringify(selfMsg));
             return true;
         } catch (e) {
             return false;
@@ -56,11 +57,12 @@ class Dialog extends Component{
         return (
             <div>
                 <TalkBox topic="Сообщения" currentUserId={localStorage.getItem("AUTH")}
-                          currentUser="Samat" messages={this.state.messages}
+                          currentUser={this.props.username} messages={this.state.messages}
                          onSendMessage={this.sendMessage} connected={this.state.clientConnected}/>
 
                 {/*{this.state.messages.map((message)=><p>{message.message} {message.author}</p>)}*/}
-                <SockJsClient url={"http://localhost:8080/messages"} topics={["/room/"+this.props.state]}
+                <SockJsClient url={"http://localhost:8080/chat-messaging"}
+                              topics={["/chat/messages/"+this.props.state]}
                               onMessage={this.onMessageReceive} ref={(client) => {
                     this.clientRef = client
                 }}

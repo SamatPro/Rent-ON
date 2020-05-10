@@ -12,4 +12,5 @@ public interface RentsService {
     RentDto getRent(Long id, Authentication authentication);
     List<RentDto> getFeedbacks(Authentication authentication);
     RentDto getFeedback(Long id, Authentication authentication);
+    RentDto accept(Long id, Boolean status, Authentication authentication);
 }

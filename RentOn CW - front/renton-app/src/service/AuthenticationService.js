@@ -116,9 +116,21 @@ class AuthenticationService {
         return axios.get(`${API_URL}/rent/${id}`)
     }
 
+    getProductsByUser(id){
+        this.setupAxiosInterceptors();
+        return axios.get(`${API_URL}/user/${id}/products`)
+    }
+
     getFavourites(){
         this.setupAxiosInterceptors();
         return axios.get(`${API_URL}/products/favourites`)
+    }
+
+    accept(rentId, status){
+        this.setupAxiosInterceptors();
+        const form = new FormData();
+        form.append("status", status)
+        return axios.put(`${API_URL}/feedback/${rentId}/accept`, form)
     }
     setupAxiosInterceptors() {
         axios.defaults.headers.common['AUTH'] = localStorage.getItem('AUTH');

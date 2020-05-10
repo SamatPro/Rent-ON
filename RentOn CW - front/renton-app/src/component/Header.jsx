@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import ProfileLogo from "./ProfileLogo";
+import ProfileLogo from "./users/ProfileLogo";
 import HeaderButtons from "./HeaderButtons";
 
 class Header extends Component {

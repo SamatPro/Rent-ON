@@ -1,39 +1,33 @@
 import React, {Component} from 'react'
-import Navbar from "./Navbar";
-import ProductBar from "./products/ProductBar";
-import AuthenticationService from "../service/AuthenticationService";
-import Header from "./Header";
+import Navbar from "../Navbar";
+import ProductBar from "../products/ProductBar";
+import AuthenticationService from "../../service/AuthenticationService";
+import axios from "axios";
+import Header from "../Header";
+import RentBar from "./RentBar";
 
-class Favourites extends Component {
+class Rents extends Component {
 
     constructor(props) {
         super(props)
 
         this.state = {
-            products: []
+            rents: []
 
         }
-        this.getProducts = this.getProducts.bind(this)
-        this.getProducts();
+        this.getRents = this.getRents.bind(this)
+        this.getRents();
     }
 
-    getProducts(){
+    getRents(){
         AuthenticationService.setupAxiosInterceptors();
-        AuthenticationService.getFavourites()
+        AuthenticationService.getRents()
             .then(res=>{
-                console.log(res.data)
                 this.setState({
-                    products:res.data
+                    rents: res.data
                 })
             })
-            .catch(console.log("error"))
     }
-    // addToFavourites(id){
-    //     console.log(id)
-    //     AuthenticationService.addToFavourites(id)
-    //         .then(r => console.log("success"))
-    //         .catch(console.log("error"));
-    // }
 
     render() {
         return (
@@ -46,7 +40,7 @@ class Favourites extends Component {
                     <div class="container">
                         <div id="store" class="col-md-12">
                             <div class="row">
-                                {this.state.products.map((product)=> <ProductBar state={product}/>)}
+                                {this.state.rents.map((rent)=> <RentBar state={rent}/>)}
 
                                 <div className="clearfix visible-sm visible-xs"></div>
 
@@ -66,8 +60,8 @@ class Favourites extends Component {
                 </div>
             </div>
             </div>
-        )
+    )
     }
 }
 
-export default Favourites
+export default Rents

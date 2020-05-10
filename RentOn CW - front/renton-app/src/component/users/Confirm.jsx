@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import {notify} from 'react-notify-toast'
 import Redirect from "react-router-dom/es/Redirect";
-import Header from "./Header";
-import Navbar from "./Navbar";
+import Header from "../Header";
+import Navbar from "../Navbar";
 
 const API_URL = 'http://localhost:8080'
 

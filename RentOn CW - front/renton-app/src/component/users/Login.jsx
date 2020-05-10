@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import AuthenticationService from '../service/AuthenticationService';
-import Navbar from "./Navbar";
+import AuthenticationService from '../../service/AuthenticationService';
+import Navbar from "../Navbar";
 import {Redirect} from "react-router-dom";
-import Header from "./Header";
+import Header from "../Header";
 
 class Login extends Component {
 

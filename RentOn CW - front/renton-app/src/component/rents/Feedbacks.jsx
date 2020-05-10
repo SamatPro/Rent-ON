@@ -1,52 +1,34 @@
 import React, {Component} from 'react'
-import Navbar from "./Navbar";
-import ProductBar from "./products/ProductBar";
-import AuthenticationService from "../service/AuthenticationService";
+import Navbar from "../Navbar";
+import ProductBar from "../products/ProductBar";
+import AuthenticationService from "../../service/AuthenticationService";
 import axios from "axios";
-import Header from "./Header";
+import Header from "../Header";
+import RentBar from "./RentBar";
+import FeedbackBar from "./FeedbackBar";
 
-class MainPage extends Component {
+class Feedbacks extends Component {
 
     constructor(props) {
         super(props)
 
         this.state = {
-            products: []
-
+            rents: []
         }
-        this.getProducts = this.getProducts.bind(this)
-        if (props.state==null){
-            this.getProducts();
-        }else{
-            this.getByQuery(props.state);
-        }
-        // this.addToFavourites = this.addToFavourites.bind(this);
+        this.getRents = this.getRents.bind(this)
+        this.getRents();
     }
 
-    getProducts(){
-        AuthenticationService.setupAxiosInterceptors();
-
-        axios.get("http://localhost:8080/products")
-            .then(res => {
+    getRents(){
+        AuthenticationService.getFeedbacks()
+            .then(res=>{
+                console.log(res.data)
                 this.setState({
-                    products: res.data
+                    rents: res.data
                 })
-            }).catch((error) => {
-                console.log("error")
-        });
-    }
-
-    getByQuery(text){
-        AuthenticationService.setupAxiosInterceptors();
-
-        axios.get("http://localhost:8080/products/search?query="+text)
-            .then(res => {
-                this.setState({
-                    products: res.data
-                })
-            }).catch((error) => {
-            console.log("error")
-        });
+            }).catch(
+            // this.props.history.push(`/`)
+        )
     }
 
     render() {
@@ -60,7 +42,7 @@ class MainPage extends Component {
                     <div class="container">
                         <div id="store" class="col-md-12">
                             <div class="row">
-                                {this.state.products.map((product)=> <ProductBar state={product}/>)}
+                                {this.state.rents.map((rent)=> <FeedbackBar state={rent}/>)}
 
                                 <div className="clearfix visible-sm visible-xs"></div>
 
@@ -84,4 +66,4 @@ class MainPage extends Component {
     }
 }
 
-export default MainPage
+export default Feedbacks

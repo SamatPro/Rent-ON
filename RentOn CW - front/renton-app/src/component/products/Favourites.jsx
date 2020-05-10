@@ -1,11 +1,10 @@
 import React, {Component} from 'react'
-import Navbar from "./Navbar";
-import ProductBar from "./products/ProductBar";
-import AuthenticationService from "../service/AuthenticationService";
-import axios from "axios";
-import Header from "./Header";
+import Navbar from "../Navbar";
+import ProductBar from "./ProductBar";
+import AuthenticationService from "../../service/AuthenticationService";
+import Header from "../Header";
 
-class MainPage extends Component {
+class Favourites extends Component {
 
     constructor(props) {
         super(props)
@@ -15,38 +14,19 @@ class MainPage extends Component {
 
         }
         this.getProducts = this.getProducts.bind(this)
-        if (props.state==null){
-            this.getProducts();
-        }else{
-            this.getByQuery(props.state);
-        }
-        // this.addToFavourites = this.addToFavourites.bind(this);
+        this.getProducts();
     }
 
     getProducts(){
         AuthenticationService.setupAxiosInterceptors();
-
-        axios.get("http://localhost:8080/products")
-            .then(res => {
+        AuthenticationService.getFavourites()
+            .then(res=>{
+                console.log(res.data)
                 this.setState({
-                    products: res.data
+                    products:res.data
                 })
-            }).catch((error) => {
-                console.log("error")
-        });
-    }
-
-    getByQuery(text){
-        AuthenticationService.setupAxiosInterceptors();
-
-        axios.get("http://localhost:8080/products/search?query="+text)
-            .then(res => {
-                this.setState({
-                    products: res.data
-                })
-            }).catch((error) => {
-            console.log("error")
-        });
+            })
+            .catch(console.log("error"))
     }
 
     render() {
@@ -80,8 +60,8 @@ class MainPage extends Component {
                 </div>
             </div>
             </div>
-    )
+        )
     }
 }
 
-export default MainPage
+export default Favourites

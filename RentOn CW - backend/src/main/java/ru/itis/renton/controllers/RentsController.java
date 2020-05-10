@@ -8,7 +8,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import ru.itis.renton.dto.RentDto;
-import ru.itis.renton.models.Rent;
 import ru.itis.renton.services.RentsService;
 
 import java.util.List;
@@ -59,6 +58,18 @@ public class RentsController {
                                                Authentication authentication){
         try {
             return ResponseEntity.ok(rentsService.getFeedback(rentId, authentication));
+        }catch (AccessDeniedException e){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+    }
+
+    @PutMapping("/feedback/{id}/accept")
+    public ResponseEntity<RentDto> accept(@PathVariable("id") Long rentId,
+                                          @RequestParam String status,
+                                          Authentication authentication){
+        Boolean st = Boolean.valueOf(status);
+        try {
+            return ResponseEntity.ok(rentsService.accept(rentId, st, authentication));
         }catch (AccessDeniedException e){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }

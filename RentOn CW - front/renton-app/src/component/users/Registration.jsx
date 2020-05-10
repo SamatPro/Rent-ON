@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
-import AuthenticationService from '../service/AuthenticationService';
-import Header from "./Header";
-import Navbar from "./Navbar";
+import AuthenticationService from '../../service/AuthenticationService';
+import Header from "../Header";
+import Navbar from "../Navbar";
 
 class Registration extends Component {
 

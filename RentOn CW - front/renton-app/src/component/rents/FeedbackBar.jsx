@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
-import AuthenticationService from "../service/AuthenticationService";
+import AuthenticationService from "../../service/AuthenticationService";
 
 const API_IMG_URL = 'http://localhost:8080/image/'
 
 
-class RentBar extends Component {
+class FeedbackBar extends Component {
 
     constructor(props) {
         super(props)
@@ -17,7 +17,7 @@ class RentBar extends Component {
                 title: this.props.state.productDto.title,
                 description: props.state.productDto.description,
                 imgLink: API_IMG_URL + props.state.productDto.image,
-                category: 'Поход',
+                category: this.props.state.productDto.category,
                 price: props.state.productDto.price,
             },
             favouriteState:{
@@ -30,9 +30,16 @@ class RentBar extends Component {
                 lastName: props.state.productDto.user.lastName,
                 phone: props.state.productDto.user.phone
             },
+            tenant:{
+                id:props.state.tenant.id,
+                firstName:props.state.tenant.firstName,
+                lastName: props.state.tenant.lastName,
+                phone: props.state.tenant.phone
+            },
+            status:props.state.isAccepted==null ? "Не отвечено" : props.state.isAccepted ? "Принят" : "Отклонен",
+            statusStyle: props.state.isAccepted==null ? "blue" : props.state.isAccepted ? "green" : "red",
             dateOfDeal: props.state.dateOfDeal,
             endOfDeal: props.state.endOfDeal
-
 
 
         }
@@ -59,7 +66,7 @@ class RentBar extends Component {
             <div>
                 <div className="col-md-4 col-xs-6">
                     <div class="product">
-                        <a href={"/rents/" + this.state.id}>
+                        <a href={"/feedback/" + this.state.id}>
                             <div class="product-img">
                                 <img src={this.state.product.imgLink} alt=""/>
                             </div>
@@ -67,11 +74,14 @@ class RentBar extends Component {
                         <div class="product-body">
                             <p class="product-category">{this.state.product.category}</p>
                             <h3 class="product-name">
-                                <a href={"/rents/" + this.state.id}>{this.state.product.title}</a>
+                                <a href={"/feedback/" + this.state.id}>{this.state.product.title}</a>
                             </h3>
                             <h4 class="product-price">
                                 {this.state.product.price}
                             </h4>
+                            <h5 class="product-price" style={{color: this.state.statusStyle}}>
+                                {this.state.status}
+                            </h5>
                             <div class="product-rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
@@ -80,13 +90,9 @@ class RentBar extends Component {
                                 <i class="fa fa-star"></i>
                             </div>
                             <div class="product-btns">
-                                <button onClick={()=> this.addToFavourites(this.state.product.id)} class="add-to-wishlist">
-                                    <i class={this.state.favouriteState.isFavourite}></i>
-                                    <span class="tooltipp">{this.state.favouriteState.favouriteText}</span></button>
-                                <button class="add-to-compare"><i class="fa fa-comments"></i><span
-                                    class="tooltipp">Переписка</span></button>
-                                {/*<button id={"link" + this.state.id} class="quick-view" onClick={this.openProduct(this.state.id)}>*/}
-                                {/*    <i class="fa fa-eye"></i><span class="tooltipp">посмотреть</span></button>*/}
+                                <a href={"/user/" + this.state.tenant.id} class="add-to-compare"><i class="fa fa-user-o"></i><span
+                                    class="tooltipp"> {this.state.tenant.firstName} {this.state.tenant.lastName}</span></a>
+
                             </div>
                         </div>
                     </div>
@@ -96,4 +102,4 @@ class RentBar extends Component {
     }
 }
 
-export default RentBar
+export default FeedbackBar
