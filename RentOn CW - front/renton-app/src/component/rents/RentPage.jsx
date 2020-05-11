@@ -140,7 +140,7 @@ class RentPage extends Component {
                                         </h5>
                                         :
                                         <h5 className="product-price" style={{color: "blue"}}>
-                                            
+
                                         </h5>
                                     }
                                 </div>

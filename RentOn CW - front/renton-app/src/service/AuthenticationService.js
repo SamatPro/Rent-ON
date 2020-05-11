@@ -90,10 +90,7 @@ class AuthenticationService {
 
     rent(id){
         this.setupAxiosInterceptors();
-        axios.post(`${API_URL}/products/${id}/rent`)
-            .then(res=>{
-                return res.data
-            })
+        return axios.post(`${API_URL}/products/${id}/rent`)
     }
 
     getFeedbacks(){

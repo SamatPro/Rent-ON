@@ -55,16 +55,16 @@ class HeaderButtons extends Component {
                         <div className="header-ctn">
 
                             <div>
-                                <a >
+                                <a href={"https://www.instagram.com/renton_kzn/"} target="_blank">
                                     <i className="fa fa-instagram" aria-hidden="true"></i>
-                                    <span>Мы в Instagram</span>
+                                    <span>Следите</span>
                                 </a>
                             </div>
 
                             <div>
-                                <a >
+                                <a href={"https://www.vk.com/"} target="_blank">
                                     <i className="fa fa-vk" aria-hidden="true"></i>
-                                    <span>Мы в VK</span>
+                                    <span>за нами!</span>
                                 </a>
                             </div>
 

@@ -46,6 +46,9 @@ class ProductBar extends Component {
 
     rent(id) {
         AuthenticationService.rent(id)
+            .catch(()=>{
+                window.location.href="/login"
+            })
     }
 
     render() {
