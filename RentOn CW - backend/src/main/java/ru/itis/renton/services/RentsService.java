@@ -2,7 +2,6 @@ package ru.itis.renton.services;
 
 import org.springframework.security.core.Authentication;
 import ru.itis.renton.dto.RentDto;
-import ru.itis.renton.models.Rent;
 
 import java.util.List;
 

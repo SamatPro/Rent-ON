@@ -1,5 +1,6 @@
 package ru.itis.renton.services;
 
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,7 +16,6 @@ import ru.itis.renton.forms.ProfileForm;
 import ru.itis.renton.models.Photo;
 import ru.itis.renton.models.User;
 import ru.itis.renton.repositories.UsersRepository;
-import ru.itis.renton.security.providers.JwtTokenAuthenticationProvider;
 import ru.itis.renton.security.providers.JwtTokenProvider;
 import ru.itis.renton.security.role.Role;
 
@@ -26,9 +26,6 @@ import java.util.UUID;
 @Service
 @Transactional
 public class UsersServiceImpl implements UserService {
-
-    private final String HEADER = "";
-    private final String FOOTER = "";
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
@@ -44,6 +41,9 @@ public class UsersServiceImpl implements UserService {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private AmqpTemplate amqpTemplate;
 
     @Override
     public TokenDto login(LoginDto loginDto) {
@@ -84,6 +84,9 @@ public class UsersServiceImpl implements UserService {
 
             User user = usersRepository.save(userToSave);
             String text = "<a href='http://localhost:3000/confirm/" + user.getConfirmString() + "'>" +"Пройдите по ссылке" + "</a>";
+
+            amqpTemplate.convertAndSend("registration", user.getLogin(), user.getConfirmString());
+
             emailService.sendMail("Подтвреждение регистрации", text, user.getLogin());
             return;
         }

@@ -2,8 +2,6 @@ package ru.itis.renton.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import ru.itis.renton.security.role.Role;
 
 import javax.persistence.*;

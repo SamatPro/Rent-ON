@@ -4,7 +4,6 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import ru.itis.renton.models.User;
 
 import javax.annotation.PostConstruct;

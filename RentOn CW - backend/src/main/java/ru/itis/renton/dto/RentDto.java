@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.Authentication;
-import ru.itis.renton.models.Product;
 import ru.itis.renton.models.Rent;
 
 import java.sql.Timestamp;

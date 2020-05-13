@@ -6,8 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.itis.renton.models.User;
 
-import java.sql.Date;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -12,12 +12,10 @@ import org.springframework.security.authentication.AuthenticationServiceExceptio
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import ru.itis.renton.security.authentication.JwtTokenAuthentication;
 import ru.itis.renton.security.details.UserDetailsImpl;
-import ru.itis.renton.services.UsersServiceImpl;
 
 @Component
 public class JwtTokenAuthenticationProvider implements AuthenticationProvider {

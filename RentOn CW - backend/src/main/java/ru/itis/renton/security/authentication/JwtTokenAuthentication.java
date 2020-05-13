@@ -2,7 +2,6 @@ package ru.itis.renton.security.authentication;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import ru.itis.renton.security.details.UserDetailsImpl;
 
 import java.util.Collection;

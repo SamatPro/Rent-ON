@@ -3,7 +3,6 @@ package ru.itis.renton.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.itis.renton.dto.MessageDto;
-import ru.itis.renton.dto.UserDto;
 import ru.itis.renton.models.Message;
 import ru.itis.renton.models.Rent;
 import ru.itis.renton.models.User;
