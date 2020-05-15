@@ -1,6 +1,7 @@
 package ru.itis.renton.services;
 
 import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.core.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -83,11 +84,8 @@ public class UsersServiceImpl implements UserService {
                 .build();
 
             User user = usersRepository.save(userToSave);
-            String text = "<a href='http://localhost:3000/confirm/" + user.getConfirmString() + "'>" +"Пройдите по ссылке" + "</a>";
 
-            amqpTemplate.convertAndSend("registration", user.getLogin(), user.getConfirmString());
-
-            emailService.sendMail("Подтвреждение регистрации", text, user.getLogin());
+            amqpTemplate.convertAndSend("registration", user.getId());
             return;
         }
         throw new IllegalArgumentException("Register attempt failed");
