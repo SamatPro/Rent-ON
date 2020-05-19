@@ -86,7 +86,7 @@ class ProductBar extends Component {
                         </div>
                         <div class="add-to-cart">
                             <button class="add-to-cart-btn" onClick={() =>this.rent(this.state.id)}><i class="fa fa-shopping-cart"></i>
-                                Взять на аренду
+                                Взять в аренду
                             </button>
                         </div>
                     </div>

@@ -20,13 +20,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="11944b9e-09f8-4a03-98aa-c312357d21ba" name="Default Changelist" comment="delete unnecessary hrefs (for heroku)">
+      <change afterPath="$PROJECT_DIR$/../RentOn CW - backend/src/main/java/ru/itis/renton/clients/ApiDataClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RentOn CW - backend/src/main/java/ru/itis/renton/clients/ApiDataDbClientImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RentOn CW - backend/src/main/java/ru/itis/renton/controllers/AdminsController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RentOn CW - backend/src/main/java/ru/itis/renton/entries/ProductDbRecord.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RentOn CW - backend/src/main/java/ru/itis/renton/entries/UserDbRecord.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RentOn CW - backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../RentOn CW - backend/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../RentOn CW - backend/src/main/java/ru/itis/renton/configs/RabbitConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../RentOn CW - backend/src/main/java/ru/itis/renton/configs/RabbitConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../RentOn CW - backend/src/main/java/ru/itis/renton/services/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../RentOn CW - backend/src/main/java/ru/itis/renton/services/EmailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../RentOn CW - backend/src/main/java/ru/itis/renton/controllers/ProductsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../RentOn CW - backend/src/main/java/ru/itis/renton/controllers/ProductsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../RentOn CW - backend/src/main/java/ru/itis/renton/security/filters/JwtTokenAuthFilter.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../RentOn CW - backend/src/main/java/ru/itis/renton/services/EmailServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../RentOn CW - backend/src/main/java/ru/itis/renton/services/EmailServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../RentOn CW - backend/src/main/java/ru/itis/renton/services/UsersServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../RentOn CW - backend/src/main/java/ru/itis/renton/services/UsersServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../RentOn CW - backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../RentOn CW - backend/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -149,7 +151,11 @@
       <workItem from="1589478386330" duration="1402000" />
       <workItem from="1589534493820" duration="614000" />
       <workItem from="1589547777718" duration="1605000" />
-      <workItem from="1589563968399" duration="1201000" />
+      <workItem from="1589563968399" duration="1828000" />
+      <workItem from="1589574198611" duration="186000" />
+      <workItem from="1589624577729" duration="2749000" />
+      <workItem from="1589655331910" duration="1202000" />
+      <workItem from="1589826826904" duration="1103000" />
     </task>
     <task id="LOCAL-00001" summary="initial front">
       <created>1585915084696</created>
@@ -270,26 +276,26 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="639" y="306" key="Github.ShareDialog/0.0.1536.824@0.0.1536.824" timestamp="1585915110934" />
-    <state width="1899" height="640" key="GridCell.Tab.0.bottom" timestamp="1589553123442">
+    <state width="1899" height="548" key="GridCell.Tab.0.bottom" timestamp="1589828040966">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1515" height="200" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1589202155544" />
-    <state width="1899" height="640" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1589553123442" />
-    <state width="1899" height="640" key="GridCell.Tab.0.center" timestamp="1589553123442">
+    <state width="1899" height="548" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1589828040966" />
+    <state width="1899" height="548" key="GridCell.Tab.0.center" timestamp="1589828040966">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1515" height="200" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1589202155544" />
-    <state width="1899" height="640" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1589553123442" />
-    <state width="1899" height="640" key="GridCell.Tab.0.left" timestamp="1589553123441">
+    <state width="1899" height="548" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1589828040966" />
+    <state width="1899" height="548" key="GridCell.Tab.0.left" timestamp="1589828040965">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1515" height="200" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1589202155543" />
-    <state width="1899" height="640" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1589553123441" />
-    <state width="1899" height="640" key="GridCell.Tab.0.right" timestamp="1589553123442">
+    <state width="1899" height="548" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1589828040965" />
+    <state width="1899" height="548" key="GridCell.Tab.0.right" timestamp="1589828040966">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1515" height="200" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1589202155544" />
-    <state width="1899" height="640" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1589553123442" />
+    <state width="1899" height="548" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1589828040966" />
     <state width="1493" height="261" key="GridCell.Tab.1.bottom" timestamp="1585944137725">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

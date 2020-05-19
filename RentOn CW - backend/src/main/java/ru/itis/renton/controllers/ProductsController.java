@@ -17,7 +17,7 @@ public class ProductsController {
     @Autowired
     private ProductsService productsService;
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity<Long> add(@RequestBody ProductDto productDto,
                                      Authentication authentication){
         return ResponseEntity.ok(

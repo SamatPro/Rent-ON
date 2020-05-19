@@ -40,7 +40,7 @@ class AuthenticationService {
     }
 
     addProduct(title, price, description, category){
-        return axios.post(`${API_URL}/products/add`, {
+        return axios.post(`${API_URL}/products/`, {
             title,
             price,
             description,
