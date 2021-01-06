@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "json-fetch": "^8.0.0",
     "react-router-dom": "^5.1.2",
     "react-talk": "^1.0.0",
